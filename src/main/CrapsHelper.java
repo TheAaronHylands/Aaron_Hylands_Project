@@ -50,6 +50,7 @@ public class CrapsHelper {
 		
 		Craps.playerArray.forEach((player) -> {
 			Craps.bankRollArray.add(player.getBankRollIndex(), 100);
+			Craps.betAmountArray.add(player.getBankRollIndex(), 0);
 		});
 		
 	}
@@ -173,6 +174,38 @@ public class CrapsHelper {
 		
 		return shooterBetInput;
 		
+	}
+	static int playerBetInput;
+	
+	public static void queryActionEnguagement() {
+		Craps.actionCoverage = 0;
+		Craps.playerArray.forEach((player) -> {
+			playerBetInput = 0;
+			if (Craps.playerArray.indexOf(player) != Craps.shooterID && Craps.actionCoverage != Craps.actionAmount && Craps.bankRollArray.get(player.getBankRollIndex()) != 0) {
+				System.out.printf("\n%s, how much of the action do you want?\n"
+						+ "Enter your bet, minimum of $10 up to $%d, or your bank balance($%d), "
+						+ "whichever is less: ", player.getName(),(Craps.actionAmount - Craps.actionCoverage),Craps.bankRollArray.get(player.getBankRollIndex()));
+				// add if statement to check bet array and if there is a bet present make a different message for adding to your bet
+				do {
+					try {
+						playerBetInput = Craps.scnr.nextInt();
+					} catch (InputMismatchException ime) {
+						System.out.println("Invalid input.");
+					}
+					if (playerBetInput < 10 || playerBetInput > Craps.actionAmount || ((playerBetInput % 10) != 0) ) {
+						System.out.printf("Your bet must be at least $10 or up to the remaining action $%d, "
+								+ "less than or equal to your current bank amount $%d, "
+								+ "and must be a multiple of 10.\n",Craps.actionAmount,(Craps.bankRollArray.get(player.getBankRollIndex()) - Craps.betAmountArray.get(player.getBankRollIndex())));
+					}
+					
+				} while (playerBetInput < 10 || playerBetInput > (Craps.actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
+				
+				Craps.betAmountArray.set(player.getBankRollIndex(), playerBetInput);
+				Craps.actionCoverage += playerBetInput;
+			}
+		});
+		System.out.println("The shooter's bet has been completely covered. NO MORE BETS!.");
+		System.out.println(Craps.betAmountArray.toString());
 	}
 	
 }//End of class

@@ -2,7 +2,6 @@ package main;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 public class Craps {
 	public static Scanner scnr = new Scanner(System.in);
@@ -18,6 +17,7 @@ public class Craps {
 	public static int point;
 	public static int comeOut;
 	public static int actionAmount;
+	public static int actionCoverage;
 	public static int[] comeOutPass = {7,11};
 	public static int[] comeOutCrap = {2,3,12};
 	public static String gameStage;
@@ -53,8 +53,9 @@ public class Craps {
 			
 			// Print who the shooter is and get their bet
 			actionAmount = CrapsHelper.getShooterBet();
-			System.out.println(actionAmount);
 			
+			// Query other players to meet the action amount
+			CrapsHelper.queryActionEnguagement();
 			
 			//Temporary break to avoid infinite loop
 			break;
