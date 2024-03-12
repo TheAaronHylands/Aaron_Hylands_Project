@@ -14,7 +14,7 @@ public class Craps {
 	public static ArrayList<Integer> bankRollArray = new ArrayList<Integer>();
 	public static ArrayList<Integer> betAmountArray = new ArrayList<Integer>();
 	public static int numberOfPlayers = 0;
-	public static int point;
+	public static int pointRoll;
 	public static int comeOut;
 	public static int actionAmount;
 	public static int actionCoverage;
@@ -23,11 +23,43 @@ public class Craps {
 	public static String gameStage;
 	public static int shooterID = 0;
 	
+	public static int textSpeed = 5;
+	public static void printMessage(String inputString) {
+		
+		for(int i = 0;i < inputString.length(); i++) {
+			System.out.print(inputString.charAt(i));
+			try {
+				Thread.sleep(textSpeed);
+			} catch (InterruptedException ie){
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
 	
+	public static void printMessageln(String inputString) {
+		for(int i = 0;i < inputString.length(); i++) {
+			System.out.print(inputString.charAt(i));
+			try {
+				Thread.sleep(textSpeed);
+			} catch (InterruptedException ie){
+				Thread.currentThread().interrupt();
+			}
+		}
+		System.out.println();
+	}
+	
+	public static void sleep(int sleepTime) {
+		try {
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException ie){
+			Thread.currentThread().interrupt();
+		}
+	}
+
 	
 	public static void main(String[]args) {	
 		//Welcome message here
-		System.out.println("Welcome to Casino Fanshawe! The game here is craps, so we need to get some information about your party...\n");
+		printMessageln("Welcome to Casino Fanshawe! The game here is craps, so we need to get some information about your party...\n");
 		
 		// Setup players:
 		// Get the number of players
@@ -57,11 +89,16 @@ public class Craps {
 			// Query other players to meet the action amount
 			CrapsHelper.queryActionEnguagement();
 			
+			//Roll the dice
+			CrapsHelper.rollComeOut();
+			
+			CrapsHelper.comeOutResult();
+			
 			//Temporary break to avoid infinite loop
 			break;
 			
 		} 
-		System.out.println("Game complete.");
+		printMessageln("Game complete.");
 		
 		
 	}//End of main method
