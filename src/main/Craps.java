@@ -1,3 +1,11 @@
+/**
+ * Program Name:	Craps.java
+ * Purpose:			Simulates the game of Craps
+ * @author			Aaron Hylands, 0740727
+ * Date:			April 1, 2024 (DUE)
+ * @since			1.0.0
+ */
+
 package main;
 
 import java.util.Scanner;
