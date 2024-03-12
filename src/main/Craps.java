@@ -60,7 +60,9 @@ public class Craps {
 			actionAmount = CrapsHelper.getShooterBet();
 			
 			// Query other players to meet the action amount
-			CrapsHelper.queryActionEnguagement();
+			CrapsHelper.getOpponentBet();
+			// Ask Janice if action should be assumed to be covered on the first round of questions.(Yes it should)
+			// Also what happens if the total bet amount can't be covered(cover as much and any left over is not put into the bet)
 			
 			//Roll the dice
 			CrapsHelper.rollComeOut();
@@ -70,6 +72,9 @@ public class Craps {
 			
 			// Adjust bank balances or continue to point game accordingly
 			CrapsHelper.adjustBankBalances();
+			
+			// Check to see if any of the players are out after the round of betting
+			CrapsHelper.checkForBust();
 			
 			//Check for a winner after bank adjustment
 			gameIsDone = CrapsHelper.checkForWinner();
@@ -84,6 +89,9 @@ public class Craps {
 				
 				//adjust bankroll accordingly or continue game
 				CrapsHelper.adjustBankBalances();
+				
+				// Check to see if any of the players are out after the round of betting
+				CrapsHelper.checkForBust();
 				
 				//Check for a winner after bank adjustment
 				gameIsDone = CrapsHelper.checkForWinner();

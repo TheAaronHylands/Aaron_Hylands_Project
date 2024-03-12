@@ -79,6 +79,7 @@ public class CrapsHelper {
 			
 			
 		});
+		System.out.println();
 		
 	}
 	
@@ -96,7 +97,6 @@ public class CrapsHelper {
 //===================================================================================	
 	
 	public static void printPlayerBankBalances() {
-		printMessageln("\nThese are the players:");
 		Craps.playerArray.forEach((player) -> {
 			printMessageln("Player" + (Craps.playerArray.indexOf(player) + 1) 
 					+ " - " + player.getName()
@@ -187,7 +187,7 @@ public class CrapsHelper {
 	
 //===================================================================================
 	
-	static int dramaticPause = 750;
+	static int dramaticPause = 500;
 	public static void rollComeOut() {
 		
 		Craps.comeOut = rollDice();
@@ -251,6 +251,7 @@ public class CrapsHelper {
 			}
 		
 		}
+		System.out.println();
 	}
 	
 //===================================================================================	
@@ -260,6 +261,7 @@ public class CrapsHelper {
 			case 2: {
 				printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
 						", you rolled a two. You lose...");
+				System.out.println();
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
@@ -268,6 +270,7 @@ public class CrapsHelper {
 			case 3: {
 				printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
 						", you rolled a three. You lose...");
+				System.out.println();
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
@@ -276,6 +279,7 @@ public class CrapsHelper {
 			case 12: {
 				printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
 						", you rolled a twelve. You lose...");
+				System.out.println();
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
@@ -285,6 +289,7 @@ public class CrapsHelper {
 			case 7: {
 				printMessageln("Congratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
 						+ "! You have rolled a natural. You win!");
+				System.out.println();
 				Craps.didShooterWin = true;
 				Craps.didShooterCrap = false;
 				Craps.shootingForPoint = false;
@@ -301,6 +306,7 @@ public class CrapsHelper {
 			}
 			
 		}
+		
 	}
 	
 //===================================================================================	
@@ -322,8 +328,8 @@ public class CrapsHelper {
 				}
 			});
 			
-			printMessageln(Craps.bankRollArray.toString());
-			printMessageln(Craps.betAmountArray.toString());
+//			printMessageln(Craps.bankRollArray.toString());
+//			printMessageln(Craps.betAmountArray.toString());
 			
 		} else if (Craps.didShooterWin && !Craps.didShooterCrap) {// Shooter wins
 			
@@ -341,23 +347,27 @@ public class CrapsHelper {
 				
 			});
 			
-			printMessageln(Craps.bankRollArray.toString());
-			printMessageln(Craps.betAmountArray.toString());
+
 			
 		} else if (!Craps.didShooterCrap && !Craps.didShooterWin) {
 			printMessageln("Rolling the dice again to try for your point...");
 		}
-		// check if any players are out of the game
-		Craps.bankRollArray.forEach((account) -> {
-			
-			if (account == 0 && (Craps.betAmountArray.get(Craps.bankRollArray.indexOf(account)) == 0 ) && !Craps.playerArray.get(Craps.bankRollArray.indexOf(account)).hasLost() ){
-				
-				Craps.playerArray.get(Craps.bankRollArray.indexOf(account)).gameOver();
-				printMessageln(Craps.playerArray.get(Craps.bankRollArray.indexOf(account)).getName() + "Is out");
-			}
-			
-		});
 		
+		
+	}
+	
+//===================================================================================	
+	
+	public static void checkForBust() {
+		// check if any players are out of the game
+			Craps.bankRollArray.forEach((account) -> {
+				
+				if (account == 0 && (Craps.betAmountArray.get(Craps.bankRollArray.indexOf(account)) == 0 )){
+					
+					Craps.playerArray.get(Craps.bankRollArray.indexOf(account)).gameOver();
+				}
+				
+			});
 	}
 	
 //===================================================================================	
@@ -386,7 +396,9 @@ public class CrapsHelper {
 	static String passResponse;
 	static boolean willPass;
 	public static boolean queryPass() {
+		System.out.println();
 		willPass = true;
+		Craps.scnr.nextLine();
 		if (!Craps.playerArray.get(Craps.shooterID).hasLost()) {
 			printMessage(Craps.playerArray.get(Craps.shooterID).getName() 
 					+ ", do you want to roll again or pass the dice? "
@@ -461,11 +473,11 @@ public class CrapsHelper {
 		return shooterBetInput;
 		
 	}
-	static int playerBetInput;
 	
 //===================================================================================	
 	
-	public static void queryActionEnguagement() {
+	static int playerBetInput;
+	public static void getOpponentBet() {
 		Craps.actionCoverage = 0;
 		Craps.playerArray.forEach((player) -> {
 			playerBetInput = 0;
@@ -498,11 +510,17 @@ public class CrapsHelper {
 				Craps.betAmountArray.set(player.getBankRollIndex(), playerBetInput);
 				Craps.bankRollArray.set(player.getBankRollIndex(), (Craps.bankRollArray.get(player.getBankRollIndex()) - playerBetInput));
 				Craps.actionCoverage += playerBetInput;
+				if (Craps.actionCoverage < Craps.actionAmount) {
+					int leftOver = (Craps.actionAmount - Craps.actionCoverage);
+					Craps.bankRollArray.set(Craps.shooterID, (Craps.bankRollArray.get(Craps.shooterID) + leftOver));
+					Craps.betAmountArray.set(Craps.shooterID, (Craps.betAmountArray.get(Craps.shooterID) - leftOver));
+				}
 			}
 		});
 		printMessageln("The shooter's bet has been completely covered. NO MORE BETS!.");
-		printMessageln(Craps.bankRollArray.toString());
-		printMessageln(Craps.betAmountArray.toString());
+//		printMessageln("These are the betting and bank arrays:");
+//		printMessageln(Craps.bankRollArray.toString());
+//		printMessageln(Craps.betAmountArray.toString());
 		System.out.println();
 	}
 	
