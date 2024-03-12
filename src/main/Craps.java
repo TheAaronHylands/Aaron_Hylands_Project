@@ -9,57 +9,30 @@ public class Craps {
 	public static Die secondDie = new Die(6);
 	public static int rollTotal;
 	
+	public static Player winner;
 	public static Player player1, player2, player3, player4, player5, player6;
 	public static ArrayList<Player> playerArray = new ArrayList<Player>();
 	public static ArrayList<Integer> bankRollArray = new ArrayList<Integer>();
 	public static ArrayList<Integer> betAmountArray = new ArrayList<Integer>();
 	public static int numberOfPlayers = 0;
 	public static int pointRoll;
+	public static int pointGoal;
 	public static int comeOut;
 	public static int actionAmount;
 	public static int actionCoverage;
-	public static int[] comeOutPass = {7,11};
-	public static int[] comeOutCrap = {2,3,12};
 	public static String gameStage;
 	public static int shooterID = 0;
+	public static boolean didShooterWin;
+	public static boolean didShooterCrap;
+	public static boolean shootingForPoint;
+	public static boolean gameIsDone;
 	
-	public static int textSpeed = 5;
-	public static void printMessage(String inputString) {
-		
-		for(int i = 0;i < inputString.length(); i++) {
-			System.out.print(inputString.charAt(i));
-			try {
-				Thread.sleep(textSpeed);
-			} catch (InterruptedException ie){
-				Thread.currentThread().interrupt();
-			}
-		}
-	}
-	
-	public static void printMessageln(String inputString) {
-		for(int i = 0;i < inputString.length(); i++) {
-			System.out.print(inputString.charAt(i));
-			try {
-				Thread.sleep(textSpeed);
-			} catch (InterruptedException ie){
-				Thread.currentThread().interrupt();
-			}
-		}
-		System.out.println();
-	}
-	
-	public static void sleep(int sleepTime) {
-		try {
-			Thread.sleep(sleepTime);
-		} catch (InterruptedException ie){
-			Thread.currentThread().interrupt();
-		}
-	}
+
 
 	
 	public static void main(String[]args) {	
 		//Welcome message here
-		printMessageln("Welcome to Casino Fanshawe! The game here is craps, so we need to get some information about your party...\n");
+		CrapsHelper.printMessageln("Welcome to Casino Fanshawe! The game here is craps, so we need to get some information about your party...\n");
 		
 		// Setup players:
 		// Get the number of players
@@ -81,7 +54,7 @@ public class Craps {
 		CrapsHelper.queryRules();
 		
 		// Start the main game loop
-		while(!CrapsHelper.checkForWinner(bankRollArray)) {
+		do {
 			
 			// Print who the shooter is and get their bet
 			actionAmount = CrapsHelper.getShooterBet();
@@ -92,14 +65,48 @@ public class Craps {
 			//Roll the dice
 			CrapsHelper.rollComeOut();
 			
+			// Figure out the outcome of the come out roll
 			CrapsHelper.comeOutResult();
 			
-			//Temporary break to avoid infinite loop
-			break;
+			// Adjust bank balances or continue to point game accordingly
+			CrapsHelper.adjustBankBalances();
 			
-		} 
-		printMessageln("Game complete.");
+			//Check for a winner after bank adjustment
+			gameIsDone = CrapsHelper.checkForWinner();
+			
+			// Only run this part of the game if come out did not fail or succeed
+			while (shootingForPoint) {
+				// Roll again 
+				CrapsHelper.rollForPoint();
+				
+				//check outcome
+				CrapsHelper.pointRollResult();
+				
+				//adjust bankroll accordingly or continue game
+				CrapsHelper.adjustBankBalances();
+				
+				//Check for a winner after bank adjustment
+				gameIsDone = CrapsHelper.checkForWinner();
+				
+				
+			}
+			
+			if (!gameIsDone) {// Print totals before queryPass
+				CrapsHelper.printMessageln("After this pass, here are the bankroll balances for everyone:");
+				CrapsHelper.printPlayerBankBalances();
+			}
+			
+			//get next shooter if game is not done
+			if (!gameIsDone && CrapsHelper.queryPass()) {
+				CrapsHelper.getNextShooter();
+			}
+			
 		
+			
+		} while (!gameIsDone);
+		System.out.println();
+		CrapsHelper.printMessageln("***** AND WE HAVE THE GAME WINNER! Congratulations, " + winner.getName() + "!*****");
+		CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
 		
 	}//End of main method
 } //End of class

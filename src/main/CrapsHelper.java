@@ -1,28 +1,62 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public class CrapsHelper {
 	
+//===================================================================================	
+	public static int textSpeed = 5;
+	public static void printMessage(String inputString) {
+		
+		for(int i = 0;i < inputString.length(); i++) {
+			System.out.print(inputString.charAt(i));
+			try {
+				Thread.sleep(textSpeed);
+			} catch (InterruptedException ie){
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
+	
+	public static void printMessageln(String inputString) {
+		for(int i = 0;i < inputString.length(); i++) {
+			System.out.print(inputString.charAt(i));
+			try {
+				Thread.sleep(textSpeed);
+			} catch (InterruptedException ie){
+				Thread.currentThread().interrupt();
+			}
+		}
+		System.out.println();
+	}
+	
+	public static void sleep(int sleepTime) {
+		try {
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException ie){
+			Thread.currentThread().interrupt();
+		}
+	}
+	
+//===================================================================================	
 	
 	static String nameHolder;
 	
 	public static void configurePlayerArray() {
 		
 		
-		Craps.printMessage("Enter the number of players for this game (minimum of 2 to maximum of 6): ");
+		printMessage("Enter the number of players for this game (minimum of 2 to maximum of 6): ");
 		while(Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
 			
 			try {
 				Craps.numberOfPlayers = Craps.scnr.nextInt();
 			} catch(InputMismatchException ime) {
-				Craps.printMessageln("Invalid input");
+				printMessageln("Invalid input");
 				Craps.scnr.nextLine();
 			}
 			if (Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
-				Craps.printMessageln("Invalid input.");
-				Craps.printMessage("Enter the number of players for this game (minimum of 2 to maximum of 6):");
+				printMessageln("Invalid input.");
+				printMessage("Enter the number of players for this game (minimum of 2 to maximum of 6):");
 			}
 			
 		} 
@@ -33,7 +67,7 @@ public class CrapsHelper {
 		Craps.playerArray.forEach((player) -> {
 			do {
 				System.out.println();
-				Craps.printMessage("Enter the first name of Player" 
+				printMessage("Enter the first name of Player" 
 						+ (Craps.playerArray.indexOf(player) + 1) 
 						+ " and press ENTER: ");
 				
@@ -48,6 +82,7 @@ public class CrapsHelper {
 		
 	}
 	
+//===================================================================================	
 	
 	public static void configureBankRollArray(){
 		
@@ -58,20 +93,24 @@ public class CrapsHelper {
 		
 	}
 	
+//===================================================================================	
+	
 	public static void printPlayerBankBalances() {
-		Craps.printMessageln("\nThese are the players:");
+		printMessageln("\nThese are the players:");
 		Craps.playerArray.forEach((player) -> {
-			Craps.printMessageln("Player" + (Craps.playerArray.indexOf(player) + 1) 
+			printMessageln("Player" + (Craps.playerArray.indexOf(player) + 1) 
 					+ " - " + player.getName()
 					+ " - Money in bank: $" 
 					+ Craps.bankRollArray.get(player.getBankRollIndex()));
 		});
 	}
 	
+//===================================================================================	
+	
 	public static boolean inputCheck(String inputString) {
 		String userResponse;
-		Craps.printMessageln("Yor input: " + inputString.trim());
-		Craps.printMessage("Is this correct? y/n: ");
+		printMessageln("Yor input: " + inputString.trim());
+		printMessage("Is this correct? y/n: ");
 		userResponse = Craps.scnr.nextLine();
 		if(userResponse.toLowerCase().trim().equals("y")) {
 			return true;
@@ -80,6 +119,8 @@ public class CrapsHelper {
 		}
 		
 	}
+	
+//===================================================================================	
 	
 	public static void setupPlayerArray() {
 		
@@ -108,9 +149,11 @@ public class CrapsHelper {
 		
 	}
 	
+//===================================================================================	
+	
 	public static void queryRules() {
 		System.out.println();
-		Craps.printMessage("Would you like a brief explanation of the rules of the game? Enter Y for yes, or N for no: ");
+		printMessage("Would you like a brief explanation of the rules of the game? Enter Y for yes, or N for no: ");
 		String userInput = Craps.scnr.nextLine();
 		switch(userInput.toLowerCase().trim()) {
 			case"y":{
@@ -118,7 +161,7 @@ public class CrapsHelper {
 				break;
 			}
 			case"n":{
-				Craps.printMessageln("OK, you know the rules...let's play some craps!");
+				printMessageln("OK, you know the rules...let's play some craps!");
 				System.out.println();
 			}
 			default: {
@@ -129,150 +172,338 @@ public class CrapsHelper {
 		
 	}
 	
+//===================================================================================	
+	
 	public static void printRules() {
-		Craps.printMessageln("Rules");
+		printMessageln("Rules");
 	}
+	
+//===================================================================================	
 	
 	public static int rollDice() {
 		int rollTotal = Craps.firstDie.roll() + Craps.secondDie.roll();
 		return rollTotal;
 	}
 	
+//===================================================================================
+	
+	static int dramaticPause = 750;
 	public static void rollComeOut() {
-		int dramaticPause = 750;
+		
 		Craps.comeOut = rollDice();
-		Craps.printMessage("***** Rolling the dice");
-		Craps.sleep(dramaticPause);
-		Craps.printMessage(".");
-		Craps.sleep(dramaticPause);
-		Craps.printMessage(".");
-		Craps.sleep(dramaticPause);
-		Craps.printMessage(".");
-		Craps.sleep(dramaticPause);
-		Craps.printMessageln("and the result is: " + Craps.comeOut + "! *****");
+		printMessage("***** Rolling the dice");
+		sleep(dramaticPause);
+		printMessage(".");
+		sleep(dramaticPause);
+		printMessage(".");
+		sleep(dramaticPause);
+		printMessage(".");
+		sleep(dramaticPause);
+		printMessageln("and the result is: " + Craps.comeOut + "! *****");
 		System.out.println();
 		
 	}
 	
+//===================================================================================	
+	
+	public static void rollForPoint() {
+		printMessage("Rolling");
+		sleep(dramaticPause);
+		Craps.pointRoll = rollDice();
+		printMessage(".");
+		sleep(dramaticPause);
+		printMessage(".");
+		sleep(dramaticPause);
+		printMessage(".");
+		sleep(dramaticPause);
+		printMessageln("you rolled a " + Craps.pointRoll);
+		
+	}
+	
+//===================================================================================	
+	
+	public static void pointRollResult() {
+		
+		switch(Craps.pointRoll) {
+			case 7:{
+				printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
+						", you rolled a seven. You lose...");
+				Craps.didShooterWin = false;
+				Craps.didShooterCrap = true;
+				Craps.shootingForPoint = false;
+				break;
+			}
+			default:{
+				//putting this in default since case arguments have to be constant
+				if(Craps.pointRoll == Craps.pointGoal) {
+					printMessageln("Congratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
+							+ "! You have rolled " + Craps.pointGoal + ". You win!");
+					Craps.didShooterWin = true;
+					Craps.didShooterCrap = false;
+					Craps.shootingForPoint = false;
+					break;
+				} else {
+					Craps.didShooterWin = false;
+					Craps.didShooterCrap = false;
+					Craps.shootingForPoint = true;
+					break;
+				}
+			}
+		
+		}
+	}
+	
+//===================================================================================	
+	
 	public static void comeOutResult() {
 		switch(Craps.comeOut) {
 			case 2: {
-				Craps.printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
+				printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
 						", you rolled a two. You lose...");
+				Craps.didShooterWin = false;
+				Craps.didShooterCrap = true;
+				Craps.shootingForPoint = false;
 				break;
 			} 
 			case 3: {
-				Craps.printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
+				printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
 						", you rolled a three. You lose...");
+				Craps.didShooterWin = false;
+				Craps.didShooterCrap = true;
+				Craps.shootingForPoint = false;
 				break;
 			}
 			case 12: {
-				Craps.printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
+				printMessageln("Sorry, " + Craps.playerArray.get(Craps.shooterID).getName() +
 						", you rolled a twelve. You lose...");
+				Craps.didShooterWin = false;
+				Craps.didShooterCrap = true;
+				Craps.shootingForPoint = false;
 				break;
 			}
 			case 11:
 			case 7: {
-				Craps.printMessageln("Congratulations" + Craps.playerArray.get(Craps.shooterID).getName() 
+				printMessageln("Congratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
 						+ "! You have rolled a natural. You win!");
+				Craps.didShooterWin = true;
+				Craps.didShooterCrap = false;
+				Craps.shootingForPoint = false;
 				break;
 			}
 			default: {
-				Craps.printMessageln("OK " + Craps.playerArray.get(Craps.shooterID).getName() + ", your point is " 
-						+ Craps.comeOut + ". To win, you need to roll your point again, but if you roll a seven, you lose.");
+				Craps.pointGoal = Craps.comeOut;
+				printMessageln("OK " + Craps.playerArray.get(Craps.shooterID).getName() + ", your point is " 
+						+ Craps.pointGoal + ". To win, you need to roll your point again, but if you roll a seven, you lose.");
+				Craps.didShooterWin = false;
+				Craps.didShooterCrap = false;
+				Craps.shootingForPoint = true;
 				break;
 			}
 			
 		}
 	}
 	
+//===================================================================================	
+
+	public static void adjustBankBalances() {
+		if (!Craps.didShooterWin && Craps.didShooterCrap) {//Shooter craps out 
+			
+			//Take the amount the shooter put up for betting and divide it according to the action covered.
+			Craps.betAmountArray.forEach((bet) -> {
+				if (Craps.betAmountArray.indexOf(bet) == Craps.shooterID) {
+					//Set bet amount in array to 0
+					Craps.betAmountArray.set(Craps.betAmountArray.indexOf(bet), 0);
+				} else {
+					//Award money
+					Craps.bankRollArray.set(Craps.betAmountArray.indexOf(bet), (Craps.bankRollArray.get(Craps.betAmountArray.indexOf(bet)) + (bet * 2)));
+					//Set bet amount in array to 0
+					Craps.betAmountArray.set(Craps.betAmountArray.indexOf(bet), 0);
+					
+				}
+			});
+			
+			printMessageln(Craps.bankRollArray.toString());
+			printMessageln(Craps.betAmountArray.toString());
+			
+		} else if (Craps.didShooterWin && !Craps.didShooterCrap) {// Shooter wins
+			
+			Craps.betAmountArray.forEach((bet) -> {
+				
+				if (Craps.betAmountArray.indexOf(bet) == Craps.shooterID) {
+					//Award money
+					Craps.bankRollArray.set(Craps.shooterID, (Craps.bankRollArray.get(Craps.shooterID) + (bet * 2)));
+					//Set bet amount in array to 0
+					Craps.betAmountArray.set(Craps.betAmountArray.indexOf(bet), 0);
+				} else {
+					//Set bet amount in array to 0
+					Craps.betAmountArray.set(Craps.betAmountArray.indexOf(bet), 0);
+				}
+				
+			});
+			
+			printMessageln(Craps.bankRollArray.toString());
+			printMessageln(Craps.betAmountArray.toString());
+			
+		} else if (!Craps.didShooterCrap && !Craps.didShooterWin) {
+			printMessageln("Rolling the dice again to try for your point...");
+		}
+		// check if any players are out of the game
+		Craps.bankRollArray.forEach((account) -> {
+			
+			if (account == 0 && (Craps.betAmountArray.get(Craps.bankRollArray.indexOf(account)) == 0 ) && !Craps.playerArray.get(Craps.bankRollArray.indexOf(account)).hasLost() ){
+				
+				Craps.playerArray.get(Craps.bankRollArray.indexOf(account)).gameOver();
+				printMessageln(Craps.playerArray.get(Craps.bankRollArray.indexOf(account)).getName() + "Is out");
+			}
+			
+		});
+		
+	}
+	
+//===================================================================================	
+	
 	static boolean winnerDecided;
 	static int totalMoney;
 	
-	public static boolean checkForWinner(ArrayList<Integer> inputBankRollArray) {
+	public static boolean checkForWinner() {
 		winnerDecided = false;
 		
 		totalMoney = Craps.numberOfPlayers * 100;
 		
-		inputBankRollArray.forEach((bankAmount) -> {
+		Craps.bankRollArray.forEach((bankAmount) -> {
 			if (bankAmount == totalMoney) {
 				winnerDecided = true;
+				Craps.winner = Craps.playerArray.get(Craps.bankRollArray.indexOf(bankAmount));
 			} 
 		});
 		
 		return winnerDecided;
 		
 	}
+
+//===================================================================================
+	
+	static String passResponse;
+	static boolean willPass;
+	public static boolean queryPass() {
+		willPass = true;
+		if (!Craps.playerArray.get(Craps.shooterID).hasLost()) {
+			printMessage(Craps.playerArray.get(Craps.shooterID).getName() 
+					+ ", do you want to roll again or pass the dice? "
+					+ "Enter Y to shoot again or enter P to pass the dice to the next shooter: ");
+			passResponse = Craps.scnr.nextLine();
+			if (passResponse.toLowerCase().trim().equals("y")) {
+				willPass = false;
+			}
+			System.out.println();
+		}
+		return willPass;
+		
+	}
+	
+//===================================================================================
+	
+	static int maxShooterID;
+	public static void getNextShooter() {//aka find next available shooter
+		maxShooterID = (Craps.numberOfPlayers - 1);
+		int index;
+		
+		if ((Craps.shooterID + 1) > maxShooterID) {
+			index = 0;
+		} else {
+			index = Craps.shooterID + 1;
+		}
+			
+		
+		for(int i = index; i <= maxShooterID; i++) {
+			
+			if (!Craps.playerArray.get(i).hasLost()) {
+				Craps.shooterID = i;
+				break;
+			}
+			
+		}
+		
+	}
+	
+//===================================================================================	
 	
 	static int shooterBetInput;
 	static int shooterBankAmount;
 	
 	public static int getShooterBet() {
-		
+		// checking shooter bank balance will be covered by getNextShooter
 		shooterBankAmount = Craps.bankRollArray.get(Craps.shooterID);
 		shooterBetInput = 0;
 		
-		Craps.printMessage(Craps.playerArray.get(Craps.shooterID).getName());
-		Craps.printMessageln(", you are the shooter!");
+		printMessage(Craps.playerArray.get(Craps.shooterID).getName());
+		printMessageln(", you are the shooter!");
 		do {
-			Craps.printMessage("You have "); 
-			Craps.printMessage("$" + shooterBankAmount);
-			Craps.printMessage(" in your bank roll, and the minimum bet is $10 Enter your bet amount: ");
+			printMessage("You have "); 
+			printMessage("$" + shooterBankAmount);
+			printMessage(" in your bank roll, and the minimum bet is $10 Enter your bet amount: ");
 			try {
 				shooterBetInput = Craps.scnr.nextInt();
 			} catch (InputMismatchException ime) {
-				Craps.printMessageln("Invalid input.");
+				printMessageln("Invalid input.");
 			}
 			
 			if (!(shooterBetInput <= shooterBankAmount) || !((shooterBetInput % 10) == 0) || !(shooterBetInput >= 10) ) {
-				Craps.printMessageln("You must enter a bet that is less than your current bank balance, is at least $10, and is a multiple of 10.");
+				printMessageln("You must enter a bet that is less than your current bank balance, is at least $10, and is a multiple of 10.");
 				
 			}
 			
 		} while (shooterBetInput > shooterBankAmount || ((shooterBetInput % 10) != 0) || shooterBetInput < 10 );
+		
+		Craps.bankRollArray.set(Craps.shooterID, (Craps.bankRollArray.get(Craps.shooterID) - shooterBetInput));
+		Craps.betAmountArray.set(Craps.shooterID, shooterBetInput);
 		
 		return shooterBetInput;
 		
 	}
 	static int playerBetInput;
 	
+//===================================================================================	
+	
 	public static void queryActionEnguagement() {
 		Craps.actionCoverage = 0;
 		Craps.playerArray.forEach((player) -> {
 			playerBetInput = 0;
-			if (Craps.playerArray.indexOf(player) != Craps.shooterID && Craps.actionCoverage != Craps.actionAmount && Craps.bankRollArray.get(player.getBankRollIndex()) != 0) {
+			if (!player.hasLost() && Craps.playerArray.indexOf(player) != Craps.shooterID && Craps.actionCoverage != Craps.actionAmount && Craps.bankRollArray.get(player.getBankRollIndex()) != 0) {
 				System.out.println();
-				Craps.printMessage(player.getName());
-				Craps.printMessageln(" how much of the action do you want?");
-				Craps.printMessage("Enter your bet, minimum of $10 up to ");
-				Craps.printMessage("$" + (Craps.actionAmount - Craps.actionCoverage));
-				Craps.printMessage(" or your bank balance($");
-				Craps.printMessage("" + Craps.bankRollArray.get(player.getBankRollIndex()));
-				Craps.printMessage(") whichever is less: ");
+				printMessage(player.getName());
+				printMessageln(" how much of the action do you want?");
+				printMessage("Enter your bet, minimum of $10 up to ");
+				printMessage("$" + (Craps.actionAmount - Craps.actionCoverage));
+				printMessage(" or your bank balance($");
+				printMessage("" + Craps.bankRollArray.get(player.getBankRollIndex()));
+				printMessage(") whichever is less: ");
 				// add if statement to check bet array and if there is a bet present make a different message for adding to your bet
 				do {
 					try {
 						playerBetInput = Craps.scnr.nextInt();
 					} catch (InputMismatchException ime) {
-						Craps.printMessageln("Invalid input.");
+						printMessageln("Invalid input.");
 					}
 					if (playerBetInput < 10 || playerBetInput > Craps.actionAmount || ((playerBetInput % 10) != 0) ) {
-						Craps.printMessage("Your bet must be at least $10 or up to the remaining action");
-						Craps.printMessage("$" + Craps.actionAmount);
-						Craps.printMessage("less than or equal to your current bank amount $");
-						Craps.printMessage("" + (Craps.bankRollArray.get(player.getBankRollIndex()) - Craps.betAmountArray.get(player.getBankRollIndex()))); 
-						Craps.printMessageln("and must be a multiple of 10.");
+						printMessage("Your bet must be at least $10 or up to the remaining action");
+						printMessage("$" + Craps.actionAmount);
+						printMessage("less than or equal to your current bank amount $");
+						printMessage("" + (Craps.bankRollArray.get(player.getBankRollIndex()) - Craps.betAmountArray.get(player.getBankRollIndex()))); 
+						printMessageln("and must be a multiple of 10.");
 					}
 					
 				} while (playerBetInput < 10 || playerBetInput > (Craps.actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
 				
 				Craps.betAmountArray.set(player.getBankRollIndex(), playerBetInput);
+				Craps.bankRollArray.set(player.getBankRollIndex(), (Craps.bankRollArray.get(player.getBankRollIndex()) - playerBetInput));
 				Craps.actionCoverage += playerBetInput;
 			}
 		});
-		Craps.printMessageln("The shooter's bet has been completely covered. NO MORE BETS!.");
+		printMessageln("The shooter's bet has been completely covered. NO MORE BETS!.");
+		printMessageln(Craps.bankRollArray.toString());
+		printMessageln(Craps.betAmountArray.toString());
 		System.out.println();
-		//Craps.printMessageln(Craps.betAmountArray.toString());
 	}
 	
 }//End of class
