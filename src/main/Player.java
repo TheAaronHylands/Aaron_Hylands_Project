@@ -5,6 +5,16 @@ public class Player {
 	String name;
 	int bankIndex;
 	boolean isOut = false;
+	int playerNumber;
+	
+	Player(int newPlayerNumber, int newBankIndex){
+		this.playerNumber = newPlayerNumber;
+		this.bankIndex = newBankIndex;
+	}
+	
+	public int getNumber() {
+		return this.playerNumber;
+	}
 	
 	public boolean hasLost() {
 		return this.isOut;

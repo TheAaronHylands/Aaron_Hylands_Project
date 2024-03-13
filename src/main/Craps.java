@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Craps {
-	public static Scanner scnr = new Scanner(System.in);
+	public static Scanner input = new Scanner(System.in);
 	public static Die firstDie = new Die(6);
 	public static Die secondDie = new Die(6);
 	public static int rollTotal;
@@ -40,14 +40,14 @@ public class Craps {
 	
 	public static void main(String[]args) {	
 		//Welcome message here
-		CrapsHelper.printMessageln("Welcome to Casino Fanshawe! The game here is craps, so we need to get some information about your party...\n");
+		CrapsHelper.printWelcomeMessage();
 		
 		// Setup players:
 		// Get the number of players
 		// Instantiate the player objects into playerArray in
-		//  accordance with the number of players
+		//   accordance with the number of players
 		// For each player object set a name and set a bankIndex
-		//  to interface with each array with the correct index
+		//   to interface with each array with the correct index
 		CrapsHelper.configurePlayerArray();
 		
 		// For each player, setup the starting amount of money
@@ -69,8 +69,10 @@ public class Craps {
 			
 			// Query other players to meet the action amount
 			CrapsHelper.getOpponentBet();
-			// Ask Janice if action should be assumed to be covered on the first round of questions.(Yes it should)
-			// Also what happens if the total bet amount can't be covered(cover as much and any left over is not put into the bet)
+			// Ask Janice if action should be assumed to be covered on the first round of questions.
+			//   (Yes it should)
+			// Also what happens if the total bet amount can't be covered
+			//   (cover as much and any left over is not put into the bet)
 			
 			//Roll the dice
 			CrapsHelper.rollComeOut();
