@@ -35,10 +35,13 @@ public class Craps {
 	public static boolean shootingForPoint;
 	public static boolean gameIsDone;
 	
-
-
 	
-	public static void main(String[]args) {	
+	
+	public static void main(String[]args) {
+		//load ui
+		CrapsUI.initGameWindow();
+		
+		
 		//Welcome message here
 		CrapsHelper.printWelcomeMessage();
 		

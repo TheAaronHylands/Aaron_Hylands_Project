@@ -59,7 +59,6 @@ public static void printWelcomeMessage() {
 	CrapsHelper.printMessageln("       ___       __   __         ___");
 	CrapsHelper.printMessageln(" |  | |__  |    /  ` /  \\  |\\/| |__  ");
 	CrapsHelper.printMessageln(" |/\\| |___ |___ \\__, \\__/  |  | |___ ");
-	CrapsHelper.sleep(500);
 	CrapsHelper.printMessageln("___  __      __        __          __ ");
 	CrapsHelper.printMessageln(" |  /  \\    /  `  /\\  /__` | |\\ | /  \\");
 	CrapsHelper.printMessageln(" |  \\__/    \\__, /~~\\ .__/ | | \\| \\__/");
@@ -68,6 +67,7 @@ public static void printWelcomeMessage() {
 	CrapsHelper.printMessageln("|    /~~\\ | \\| .__/ |  | /~~\\ |/\\| |___");
 	CrapsHelper.printMessageln("");
 	CrapsHelper.printMessageln("");
+	CrapsHelper.sleep(1000);
 }
 	
 //===================================================================================
@@ -76,7 +76,7 @@ public static void printWelcomeMessage() {
 	public static void configurePlayerArray() {
 		
 		
-		printMessage("Number of players(2-6): ");
+		printMessage("Enter number of players(2-6): ");
 		while(Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
 			
 			try {
