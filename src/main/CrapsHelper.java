@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 
 public class CrapsHelper {
 	
+	
 //===================================================================================	
 	//This is a custom method that I made originally for my text based adventure game,(The Caves of Amnesia)  
 	//  So that text would print onto the screen one character at a time. I felt that the typing animation
@@ -13,11 +14,15 @@ public class CrapsHelper {
 //						\     /    ___  ___     ___     __   __   ___  ___  __
 //                  	 \   /      |  |__  \_/  |     /__` |__) |__  |__  |  \
 //                  	  \ /       |  |___ / \  |     .__/ |    |___ |___ |__/  
-	public static int textSpeed = 7;
+	public static int textSpeed = 0;
+	static boolean skipTheReturn;
 	public static void printMessage(String inputString) {
 		
 		for(int i = 0;i < inputString.length(); i++) {
 			System.out.print(inputString.charAt(i));
+			if(CrapsUI.gameWindow.isVisible()) {
+				CrapsUI.outputText.setText(CrapsUI.outputText.getText() + inputString.charAt(i));
+			}
 			try {
 				Thread.sleep(textSpeed);
 			} catch (InterruptedException ie){
@@ -29,11 +34,17 @@ public class CrapsHelper {
 	public static void printMessageln(String inputString) {
 		for(int i = 0;i < inputString.length(); i++) {
 			System.out.print(inputString.charAt(i));
+			if(CrapsUI.gameWindow.isVisible()) {
+				CrapsUI.outputText.setText(CrapsUI.outputText.getText() + inputString.charAt(i));
+			}
 			try {
 				Thread.sleep(textSpeed);
 			} catch (InterruptedException ie){
 				Thread.currentThread().interrupt();
 			}
+		}
+		if(CrapsUI.gameWindow.isVisible()) {
+			CrapsUI.outputText.setText(CrapsUI.outputText.getText() + "\n");
 		}
 		System.out.println();
 	}
@@ -47,76 +58,111 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-
-public static void printWelcomeMessage() {
-	CrapsHelper.printMessageln("       _______       _______");
-	CrapsHelper.printMessageln("     /\\       \\     /       /\\");
-	CrapsHelper.printMessageln("    /()\\   ()  \\   /  ()   /()\\");
-	CrapsHelper.printMessageln("   /    \\_______\\ /_______/    \\");
-	CrapsHelper.printMessageln("   \\    /()     / \\     ()\\    /");
-	CrapsHelper.printMessageln("    \\()/   ()  /   \\  ()   \\()/");
-	CrapsHelper.printMessageln("     \\/_____()/     \\()_____\\/");
-	CrapsHelper.printMessageln("       ___       __   __         ___");
-	CrapsHelper.printMessageln(" |  | |__  |    /  ` /  \\  |\\/| |__  ");
-	CrapsHelper.printMessageln(" |/\\| |___ |___ \\__, \\__/  |  | |___ ");
-	CrapsHelper.printMessageln("___  __      __        __          __ ");
-	CrapsHelper.printMessageln(" |  /  \\    /  `  /\\  /__` | |\\ | /  \\");
-	CrapsHelper.printMessageln(" |  \\__/    \\__, /~~\\ .__/ | | \\| \\__/");
-	CrapsHelper.printMessageln(" ___            __                  ___");
-	CrapsHelper.printMessageln("|__   /\\  |\\ | /__` |__|  /\\  |  | |__ ");
-	CrapsHelper.printMessageln("|    /~~\\ | \\| .__/ |  | /~~\\ |/\\| |___");
-	CrapsHelper.printMessageln("");
-	CrapsHelper.printMessageln("");
-	CrapsHelper.sleep(1000);
-}
+	//printWelcomeMessage()
+	/* This method prints an ASCII art welcome message
+	 */
+	
+	public static void printWelcomeMessage() {
+		CrapsHelper.printMessageln("       _______       _______");
+		CrapsHelper.printMessageln("     /\\       \\     /       /\\");
+		CrapsHelper.printMessageln("    /()\\   ()  \\   /  ()   /()\\");
+		CrapsHelper.printMessageln("   /    \\_______\\ /_______/    \\");
+		CrapsHelper.printMessageln("   \\    /()     / \\     ()\\    /");
+		CrapsHelper.printMessageln("    \\()/   ()  /   \\  ()   \\()/");
+		CrapsHelper.printMessageln("     \\/_____()/     \\()_____\\/");
+		CrapsHelper.printMessageln("       ___       __   __         ___");
+		CrapsHelper.printMessageln(" |  | |__  |    /  ` /  \\  |\\/| |__  ");
+		CrapsHelper.printMessageln(" |/\\| |___ |___ \\__, \\__/  |  | |___ ");
+		CrapsHelper.printMessageln("___  __      __        __          __ ");
+		CrapsHelper.printMessageln(" |  /  \\    /  `  /\\  /__` | |\\ | /  \\");
+		CrapsHelper.printMessageln(" |  \\__/    \\__, /~~\\ .__/ | | \\| \\__/");
+		CrapsHelper.printMessageln(" ___            __                  ___");
+		CrapsHelper.printMessageln("|__   /\\  |\\ | /__` |__|  /\\  |  | |__ ");
+		CrapsHelper.printMessageln("|    /~~\\ | \\| .__/ |  | /~~\\ |/\\| |___");
+		CrapsHelper.printMessageln("");
+		CrapsHelper.printMessageln("");
+		CrapsHelper.sleep(750);
+	}
 	
 //===================================================================================
+	//configurePlayerArray() 
+	/* This method takes the users input and assigns the value of 2-6 to numberOfPlayers
+	 * The method then calls setupPlayerArray() where the player objects are loaded
+	 * At the end of the method is a loop that utilizes inputCheck() to ensure the user
+	 * 	didn't make any typing mistakes when entering the name.
+	 */
 	static String nameHolder;
 	
 	public static void configurePlayerArray() {
 		
+		// Collect number of players
 		
 		printMessage("Enter number of players(2-6): ");
 		while(Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
+			if(CrapsUI.gameWindow.isVisible()) {
+				CrapsUI.showPlayerSelect();
+				CrapsUI.waitForInput();
+			} else {
+				try {
+					Craps.numberOfPlayers = Craps.input.nextInt();
+				} catch(InputMismatchException ime) {
+					printMessageln("Invalid.");
+					Craps.input.nextLine();
+				}
+				if (Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
+					printMessageln("Invalid.");
+					printMessage("Enter the number of players for this game (minimum of 2 to maximum of 6):");
+				}
 			
-			try {
-				Craps.numberOfPlayers = Craps.input.nextInt();
-			} catch(InputMismatchException ime) {
-				printMessageln("Invalid.");
-				Craps.input.nextLine();
-			}
-			if (Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
-				printMessageln("Invalid.");
-				printMessage("Enter the number of players for this game (minimum of 2 to maximum of 6):");
 			}
 			
-		} 
+		}
+		if(CrapsUI.gameWindow.isVisible()) {
+			System.out.println(Craps.numberOfPlayers);
+			CrapsUI.clearTextOutput();
+			CrapsUI.submitNamesButton.setVisible(true);
+			CrapsUI.hidePlayerSelect();
+		}
 		
+		// Setup player array
 		setupPlayerArray();
 		
-		
-		Craps.input.nextLine();
-		Craps.playerArray.forEach((player) -> {
-			do {
-				System.out.println();
-				printMessage("Player " 
-						+ player.getNumber()
-						+ " Name: ");
+		// This portion is for setting the names of the players
+		if(!CrapsUI.gameWindow.isVisible()) {	
+			Craps.input.nextLine();
+			Craps.playerArray.forEach((player) -> {
+				do {
+					System.out.println();
+					printMessage("Player " 
+							+ player.getNumber()
+							+ " Name: ");
+					
+					nameHolder = Craps.input.nextLine();
+				}while(!inputCheck(nameHolder,player.getNumber()));
 				
-				nameHolder = Craps.input.nextLine();
-			}while(!inputCheck(nameHolder,player.getNumber()));
+				player.setName(nameHolder);
+				
+				
+			});
+		} else {
 			
-			player.setName(nameHolder);
-			player.setBankRollIndex(Craps.playerArray.indexOf(player));
-			
-			
-		});
-		System.out.println();
+			CrapsUI.waitForInput();
+			CrapsUI.hidePlayerNameInput();
+			CrapsUI.outputText.setText("");
+			CrapsUI.outputText.setVisible(true);
+		}
+
+		System.out.println();//for formatting
 		
 	}
 	
 //===================================================================================	
-	
+	//configureBankRollArray()
+	/* This method initializes the betAmountArray and bankRollArray by only adding the amount of indexes
+	 *  that corresponds with the amount of players. I do this using forEach from the playerArray, allowing
+	 *  for the creation of each array index only for the amount of players in the game. I utilize my get methods
+	 *  from within player to synchronize the indexes. 
+	 */
 	public static void configureBankRollArray(){
 		
 		Craps.playerArray.forEach((player) -> {
@@ -127,21 +173,35 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
-	
+	// printPlayerBankBalances()
+	/* This method simply prints the players number, their name, and their bankroll amount
+	 */
 	public static void printPlayerBankBalances() {
+		
 		Craps.playerArray.forEach((player) -> {
 			printMessageln("Player" + (Craps.playerArray.indexOf(player) + 1) 
 					+ " - " + player.getName()
-					+ "\t -  Life Savings: $" 
+					+ " -  Life Savings: $" 
 					+ Craps.bankRollArray.get(player.getBankRollIndex()));
 		});
 	}
 	
 //===================================================================================	
-	
+	//inputCheck()
+	/* This method returns a boolean value depending on the users input. It provides the string
+	 *  that the user inputted and queries a y or n. This method does not return true unless y
+	 *  is inputted, any other input is assumed to be a no. If an empty name is provided then
+	 *  the method returns false and prints a reminder to the console to provide a name.
+	 */
 	public static boolean inputCheck(String inputString,int inputInt) {
+		
+		if(inputString.trim().length() < 1) {
+			printMessageln("Please input a name.");
+			return false;
+		}
+		
 		String userResponse;
-		printMessageln("               " + inputString.trim());
+		printMessageln("Your input: " + inputString.trim());
 		printMessage("Verify y/n: ");
 		userResponse = Craps.input.nextLine();
 		if(userResponse.toLowerCase().trim().equals("y")) {
@@ -153,7 +213,14 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
-	
+	//setupPlayerArray()
+	/* This method takes the numberOfPlayers and loads the ArrayList of playerArray with the requisite
+	 *  amount of Player objects. These player objects hold the players name, and this method of loading
+	 *  the array allows for standardized indexing of each player. player1 is always in index 0, player2 index 1 etc.
+	 * I used a list of if statements to allow for adding onto the array as needed for the amount of players.
+	 *  If there are only two players then only the first if statement runs, creating and placing the player object
+	 *  into the array. If the numberOfPlayers is 3 then the second if statement runs adding a third player etc.
+	 */
 	public static void setupPlayerArray() {
 		
 		if(Craps.numberOfPlayers == 2 || Craps.numberOfPlayers > 1 ) {
@@ -161,46 +228,85 @@ public static void printWelcomeMessage() {
 			Craps.playerArray.add(Craps.player1);
 			Craps.player2 = new Player(2,1);
 			Craps.playerArray.add(Craps.player2);
+			if(CrapsUI.gameWindow.isVisible()){
+				CrapsUI.player1NameInput.setVisible(true);
+				CrapsUI.player2NameInput.setVisible(true);
+			}
 		}
 		if(Craps.numberOfPlayers == 3 || Craps.numberOfPlayers > 2) {
 			Craps.player3 = new Player(3,2);
 			Craps.playerArray.add(Craps.player3);
+			if(CrapsUI.gameWindow.isVisible()){
+				CrapsUI.player3NameInput.setVisible(true);
+			}
 		}
 		if(Craps.numberOfPlayers == 4 || Craps.numberOfPlayers > 3) {
 			Craps.player4 = new Player(4,3);
 			Craps.playerArray.add(Craps.player4);
+			if(CrapsUI.gameWindow.isVisible()){
+				CrapsUI.player4NameInput.setVisible(true);
+			}
 		}
 		if(Craps.numberOfPlayers == 5 || Craps.numberOfPlayers > 4) {
 			Craps.player5 = new Player(5,4);
 			Craps.playerArray.add(Craps.player5);
+			if(CrapsUI.gameWindow.isVisible()){
+				CrapsUI.player5NameInput.setVisible(true);
+			}
 		}
 		if(Craps.numberOfPlayers == 6 || Craps.numberOfPlayers > 5) {
 			Craps.player6 = new Player(6,5);
 			Craps.playerArray.add(Craps.player6);
+			if(CrapsUI.gameWindow.isVisible()){
+				CrapsUI.player6NameInput.setVisible(true);
+			}
 		}
-		
 	}
 	
 //===================================================================================	
-	
+	//queryRules()
+	/* This method is for printing the rules if the user doesn't know how to play the game.
+	 * If the user inputs that they know the rules, this method instead prints a message
+	 *  acknowledging that and stating that it's time for the game to start.
+	 */
+	public static String yesNo;
 	public static void queryRules() {
 		System.out.println();
-		printMessage("Do you know the rules? y/n: ");
-		String userInput = Craps.input.nextLine();
-		switch(userInput.toLowerCase().trim()) {
-			case"n":{
-				printRules();
-				break;
+		if(!CrapsUI.gameWindow.isVisible()) {
+			printMessage("Do you know the rules? y/n: ");
+			String userInput = Craps.input.nextLine();
+			switch(userInput.toLowerCase().trim()) {
+				case"n":{
+					printRules();
+					break;
+				}
+				case"y":{
+					printMessageln("OK, you know the rules...let's play some craps!");
+					System.out.println();
+				}
+		
 			}
-			case"y":{
-				printMessageln("OK, you know the rules...let's play some craps!");
-				System.out.println();
+		} else {
+			
+			printMessage("Do you know the rules?");
+			CrapsUI.showYesNoButtons();
+			CrapsUI.waitForInput();
+			CrapsUI.hideYesNoButtons();
+			switch(yesNo) {
+				case"yes":{
+					CrapsUI.clearTextOutput();
+					printMessageln("OK, you know the rules...let's play some craps!");
+					break;
+				}
+				case"no":{
+					CrapsUI.clearTextOutput();
+					printRules();
+					break;
+				}
+			
 			}
-			default: {
-				
-			}
-	
 		}
+		
 		
 	}
 	
@@ -218,12 +324,17 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================
-	
+	//rollComeOut()
+	/* This method rolls the comeOut roll from the shooter. I utilize my sleep() method 
+	 *  between each period in the message to allow for dramatic tension to build while
+	 *  waiting for the roll.
+	 */
 	static int dramaticPause = 500;
 	public static void rollComeOut() {
 		
-		Craps.comeOut = rollDice();
+		
 		printMessage("***** Rolling the dice");
+		Craps.comeOut = rollDice();// Might as well make it so the program rolls while it says its rolling
 		sleep(dramaticPause);
 		printMessage(".");
 		sleep(dramaticPause);
@@ -237,7 +348,10 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
-	
+	//rollForPoint()
+	/* This method is the same as rollComeOut but has slightly different word formatting while retaining
+	 *  the dramatic tension of the comeOut roll. It assigns the roll to Craps.pointRoll
+	 */
 	public static void rollForPoint() {
 		printMessage("Rolling");
 		sleep(dramaticPause);
@@ -253,7 +367,11 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
-	
+	//pointRollResult
+	/* This method determines the outcome of the point roll with the value stored within Craps.pointRoll
+	 * I use the same combination of boolean values to determine the outcome of each point roll so that the same
+	 *  method adjustBankBalances can be used.
+	 */
 	public static void pointRollResult() {
 		
 		switch(Craps.pointRoll) {
@@ -267,6 +385,9 @@ public static void printWelcomeMessage() {
 			}
 			default:{
 				//putting this in default since case arguments have to be constant
+				/* This allows me to utilize the switch as well as an if to determine outcome, in this case
+				 *  I am checking if pointRoll equals pointGoal
+				 */
 				if(Craps.pointRoll == Craps.pointGoal) {
 					printMessageln("Congratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
 							+ "! You have rolled " + Craps.pointGoal + ". You win!");
@@ -287,6 +408,16 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
+	//comeOutResult()
+	/* This method handles the result of the comeOut roll. I decided to use a switch. Depending on the
+	 *  outcome a combination of the three boolean values didShooterWin and didShooterCrap are set.
+	 *  With the combined outcome of these boolean values, I determine the outcome of the roll in 
+	 *  adjustBankBalances(). 
+	 * Additionally the boolean value shootingForPoint determines whether
+	 *  the shooting for point loop is entered or not. 
+	 * This is also where pointGoal is set.
+	 */
+	
 	
 	public static void comeOutResult() {
 		switch(Craps.comeOut) {
@@ -317,7 +448,7 @@ public static void printWelcomeMessage() {
 				Craps.shootingForPoint = false;
 				break;
 			}
-			case 11:
+			case 11://This is here because 11 and 7 have the same outcome
 			case 7: {
 				printMessageln("Congratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
 						+ "! You have rolled a natural. You win!");
@@ -327,8 +458,8 @@ public static void printWelcomeMessage() {
 				Craps.shootingForPoint = false;
 				break;
 			}
-			default: {
-				Craps.pointGoal = Craps.comeOut;
+			default: {// This is when the shooter neither craps or wins on their comeOut
+				Craps.pointGoal = Craps.comeOut; // This is where point goal is set
 				printMessageln("OK " + Craps.playerArray.get(Craps.shooterID).getName() + ", your point is " 
 						+ Craps.pointGoal + ". To win, you need to roll your point again, but if you roll a seven, you lose.");
 				Craps.didShooterWin = false;
@@ -342,7 +473,12 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
-
+	//adjustBankBalances()
+	/* This method adjusts the bank balances according to the combination of the boolean values
+	 *  didShooterWin and didShooterCrap, set in the previous method comeOutResult()
+	 */
+	
+	
 	public static void adjustBankBalances() {
 		if (!Craps.didShooterWin && Craps.didShooterCrap) {//Shooter craps out 
 			
@@ -359,7 +495,7 @@ public static void printWelcomeMessage() {
 					
 				}
 			});
-			
+			//For debug purposes while developing to determine accuracy of array changes.
 //			printMessageln(Craps.bankRollArray.toString());
 //			printMessageln(Craps.betAmountArray.toString());
 			
@@ -381,7 +517,7 @@ public static void printWelcomeMessage() {
 			
 
 			
-		} else if (!Craps.didShooterCrap && !Craps.didShooterWin) {
+		} else if (!Craps.didShooterCrap && !Craps.didShooterWin) {// This runs when shooting for point
 			printMessageln("Rolling the dice again to try for your point...");
 		}
 		
@@ -389,7 +525,11 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
-	
+	//checkForBust()
+	/* This method checks if any players have bust, if so it runs the Player method of gameOver()
+	 *  and sets the players isOut boolean to true. I check this value when determining whether a player
+	 *  can interact with the game with betting or shooting.
+	 */
 	public static void checkForBust() {
 		// check if any players are out of the game
 			Craps.bankRollArray.forEach((account) -> {
@@ -403,6 +543,11 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
+	//checkForWinner()
+	/* This method checks for a winner, if there is one it points Craps.winner at the winning player and 
+	 *  returns the boolean value of winnerDecided. This gets applied to boolean gameIsDone which controls
+	 *  whether the main game loop runs or not
+	 */
 	
 	static boolean winnerDecided;
 	static int totalMoney;
@@ -472,6 +617,17 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
+	//getShooterBet()
+	/* This method sets the actionAmount from user input based on some restrictions
+	 * These restrictions include the shooters bank balance, whether the input is
+	 *  divisible by 10, and that it is above 0
+	 * 
+	 * Instead of restricting the maximum actionAmount to the maximum amount of money
+	 *  that the other players can bet, the game instead adjusts the shooters bet to
+	 *  meet the coverage if it can't be fully covered. This is handled in the 
+	 *  getOpponentBet() method underneath this one.
+	 */
+	
 	
 	static int shooterBetInput;
 	static int shooterBankAmount;
@@ -487,17 +643,28 @@ public static void printWelcomeMessage() {
 			printMessage("You have "); 
 			printMessage("$" + shooterBankAmount);
 			printMessage(" of life savings left, betting less than $10 is for chumps. Enter your bet amount: ");
-			try {
-				shooterBetInput = Craps.input.nextInt();
-			} catch (InputMismatchException ime) {
-				printMessageln("Invalid input.");
-			}
-			
-			if (!(shooterBetInput <= shooterBankAmount) || !((shooterBetInput % 10) == 0) || !(shooterBetInput >= 10) ) {
-				printMessageln("Enter a bet that is less than $" + Craps.bankRollArray.get(Craps.shooterID) + ", is at least $10, and is a multiple of 10.");
+			if(!CrapsUI.gameWindow.isVisible()) {
+				try {
+					shooterBetInput = Craps.input.nextInt();
+				} catch (InputMismatchException ime) {
+					printMessageln("Invalid input.");
+				}
 				
+				if (!(shooterBetInput <= shooterBankAmount) || !((shooterBetInput % 10) == 0) || !(shooterBetInput >= 10) ) {
+					printMessageln("Enter a bet that is less than $" + Craps.bankRollArray.get(Craps.shooterID) + ", is at least $10, and is a multiple of 10.");
+					
+				}
+			} else {
+				CrapsUI.betAmountSelect.removeAllItems();
+				for(int i = 10; i <= Craps.bankRollArray.get(Craps.shooterID); i += 10) {
+					
+					CrapsUI.betAmountSelect.addItem(i);
+				}
+				CrapsUI.showActionAmountSelection();
+				CrapsUI.waitForInput();
+				shooterBetInput = CrapsUI.betAmountSelect.getItemAt(CrapsUI.betAmountSelect.getSelectedIndex());
+				CrapsUI.clearTextOutput();
 			}
-			
 		} while (shooterBetInput > shooterBankAmount || ((shooterBetInput % 10) != 0) || shooterBetInput < 10 );
 		
 		Craps.bankRollArray.set(Craps.shooterID, (Craps.bankRollArray.get(Craps.shooterID) - shooterBetInput));
@@ -508,7 +675,14 @@ public static void printWelcomeMessage() {
 	}
 	
 //===================================================================================	
-	
+	//getOpponentBet()
+	/* This method collects the bets from the other players. I've been instructed to assume that
+	 *  the coverage will be met by the time all players are queried for coverage. As such I have 
+	 *  not added functionality to re-query players to add to their bet. 
+	 *  
+	 * Any excess that cannot be covered by the players is returned from the bet amount made by the
+	 *  shooter back into the shooters bankroll.
+	 */
 	static int playerBetInput;
 	public static void getOpponentBet() {
 		Craps.actionCoverage = 0;
@@ -551,10 +725,14 @@ public static void printWelcomeMessage() {
 			}
 		});
 		printMessageln("The shooter's bet has been covered. NO MORE BETS!.");
+		
+		/* This is a debug print I used to ensure correct changes were made to the arrays 
+		 *  while developing.
+		 */
 //		printMessageln("These are the betting and bank arrays:");
 //		printMessageln(Craps.bankRollArray.toString());
 //		printMessageln(Craps.betAmountArray.toString());
-		System.out.println();
+		System.out.println();// This is for formatting
 	}
 	
 }//End of class

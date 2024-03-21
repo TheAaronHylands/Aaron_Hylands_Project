@@ -8,10 +8,10 @@
 
 package main;
 
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Craps {
+	
 	public static Scanner input = new Scanner(System.in);
 	public static Die firstDie = new Die(6);
 	public static Die secondDie = new Die(6);
@@ -37,14 +37,16 @@ public class Craps {
 	
 	
 	
+	
 	public static void main(String[]args) {
-		//load ui
+		
+		//load UI
+		//Disable \/this\/ to play the game in the console
 		CrapsUI.initGameWindow();
 		
-		
-		//Welcome message here
+		//Welcome message here	
 		CrapsHelper.printWelcomeMessage();
-		
+
 		// Setup players:
 		// Get the number of players
 		// Instantiate the player objects into playerArray in
@@ -72,10 +74,6 @@ public class Craps {
 			
 			// Query other players to meet the action amount
 			CrapsHelper.getOpponentBet();
-			// Ask Janice if action should be assumed to be covered on the first round of questions.
-			//   (Yes it should)
-			// Also what happens if the total bet amount can't be covered
-			//   (cover as much and any left over is not put into the bet)
 			
 			//Roll the dice
 			CrapsHelper.rollComeOut();
