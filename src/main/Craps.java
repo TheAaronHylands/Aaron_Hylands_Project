@@ -96,7 +96,7 @@ public class Craps {
 				CrapsHelper.rollForPoint();
 				
 				//check outcome
-				CrapsHelper.pointRollResult();
+				CrapsHelper.pointRollResult();// Working on this now
 				
 				//adjust bankroll accordingly or continue game
 				CrapsHelper.adjustBankBalances();
@@ -111,7 +111,7 @@ public class Craps {
 			}
 			
 			if (!gameIsDone) {// Print totals before queryPass
-				CrapsHelper.printMessageln("After this pass, here are the bankroll balances for everyone:");
+				CrapsHelper.printMessageln("\nAfter this pass, here are the bankroll balances for everyone:");
 				CrapsHelper.printPlayerBankBalances();
 			}
 			
@@ -124,8 +124,15 @@ public class Craps {
 			
 		} while (!gameIsDone);
 		System.out.println();
-		CrapsHelper.printMessageln("***** AND WE HAVE THE GAME WINNER! Congratulations, " + winner.getName() + "!*****");
-		CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
+		if(!CrapsUI.gameWindow.isVisible()) {
+			CrapsHelper.printMessageln("***** AND WE HAVE THE GAME WINNER! Congratulations, " + winner.getName() + "!*****");
+			CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
+		} else {
+			CrapsHelper.printMessageln("***** AND WE HAVE THE GAME WINNER!*****");
+			CrapsHelper.printMessageln("Congratulations, " + winner.getName() + "!");
+			CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
+		}
+		
 		
 	}//End of main method
 } //End of class

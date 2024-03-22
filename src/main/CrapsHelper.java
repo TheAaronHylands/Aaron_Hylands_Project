@@ -14,7 +14,7 @@ public class CrapsHelper {
 //						\     /    ___  ___     ___     __   __   ___  ___  __
 //                  	 \   /      |  |__  \_/  |     /__` |__) |__  |__  |  \
 //                  	  \ /       |  |___ / \  |     .__/ |    |___ |___ |__/  
-	public static int textSpeed = 0;
+	public static int textSpeed = 7;
 	static boolean skipTheReturn;
 	public static void printMessage(String inputString) {
 		
@@ -230,7 +230,9 @@ public class CrapsHelper {
 			Craps.playerArray.add(Craps.player2);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player1NameInput.setVisible(true);
+				CrapsUI.player1NameInput.setFontColorToPromptColor();
 				CrapsUI.player2NameInput.setVisible(true);
+				CrapsUI.player2NameInput.setFontColorToPromptColor();
 			}
 		}
 		if(Craps.numberOfPlayers == 3 || Craps.numberOfPlayers > 2) {
@@ -238,6 +240,7 @@ public class CrapsHelper {
 			Craps.playerArray.add(Craps.player3);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player3NameInput.setVisible(true);
+				CrapsUI.player3NameInput.setFontColorToPromptColor();
 			}
 		}
 		if(Craps.numberOfPlayers == 4 || Craps.numberOfPlayers > 3) {
@@ -245,6 +248,7 @@ public class CrapsHelper {
 			Craps.playerArray.add(Craps.player4);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player4NameInput.setVisible(true);
+				CrapsUI.player4NameInput.setFontColorToPromptColor();
 			}
 		}
 		if(Craps.numberOfPlayers == 5 || Craps.numberOfPlayers > 4) {
@@ -252,6 +256,7 @@ public class CrapsHelper {
 			Craps.playerArray.add(Craps.player5);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player5NameInput.setVisible(true);
+				CrapsUI.player5NameInput.setFontColorToPromptColor();
 			}
 		}
 		if(Craps.numberOfPlayers == 6 || Craps.numberOfPlayers > 5) {
@@ -259,6 +264,7 @@ public class CrapsHelper {
 			Craps.playerArray.add(Craps.player6);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player6NameInput.setVisible(true);
+				CrapsUI.player6NameInput.setFontColorToPromptColor();
 			}
 		}
 	}
@@ -300,7 +306,9 @@ public class CrapsHelper {
 				}
 				case"no":{
 					CrapsUI.clearTextOutput();
-					printRules();
+					CrapsUI.showRulesWindow();
+					CrapsUI.waitForInput();
+					CrapsUI.hideRulesWindow();
 					break;
 				}
 			
@@ -313,7 +321,22 @@ public class CrapsHelper {
 //===================================================================================	
 	
 	public static void printRules() {
-		printMessageln("Rules");
+		printMessageln("Objective: Players place bets and roll two six sided dice to determine the outcome.\r\n"
+				+ "\r\n"
+				+ "Setup: A “shooter” is designated, this shooter will roll the dice each round until they either lose by running out of money, or decide to pass the dice to the next player at the end of the round. A round ends once the shooter wins or loses.\r\n"
+				+ "\r\n"
+				+ "Betting: The shooter places a starting bet amount called the “action amount” into the “pot”(The place where the bets are held). After the action amount is set, each player in turn places their own bets in the pot in order to “cover” or meet the action amount. (eg. If an action amount of $100 is placed, the next non-shooter player can only  put forwards up to $100, if they do so they will cover the bet and no other players can place bets. If they only put $50 in, then the rest of the players must cover the rest of the bet if able.) If the players cannot cover the entire action amount, the action that is not covered will be returned to the shooter before rolling the “come out”.\r\n"
+				+ "\r\n"
+				+ "Rolling: Once bets are placed, the shooter rolls what is called the “come out” roll. It is important to note that the dice must be rolled and bounced off of a wall to ensure fair rolling. If the shooter rolls a total of 7 or 11, the shooter wins and gets all of the money in the pot. If the shooter rolls a 2, 3, or 12 then the shooter loses, and each player gets twice their bet amount from the pot. If the shooter rolls a 4, 5, 6, 8, 9 or 10, said roll is set as the “point”, and the point phase is entered.\r\n"
+				+ "\r\n"
+				+ "Point Phase: If the point phase is entered, the shooter continuously rolls the dice until they either roll the point set in the come out, or a 7. If the shooter rolls the point then they win the bets, and if they roll a 7 then they lose the bet.\r\n"
+				+ "\r\n"
+				+ "Next Shooter: After the bets have been settled and the shooter either wins or loses, as long as the shooter still has money left they can choose to shoot again. Alternatively they can choose to pass the dice to the next player, and that player is now the shooter. As long as there is more than one player with money left, the game continues and the shooter then rolls a come out roll.\r\n"
+				+ "\r\n"
+				+ "Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!\r\n"
+				+ "\r\n"
+				+ "Now that you know the rules, lets play some craps!!"
+				+ "\n\n");
 	}
 	
 //===================================================================================	
@@ -345,6 +368,7 @@ public class CrapsHelper {
 		printMessageln("and the result is: " + Craps.comeOut + "! *****");
 		System.out.println();
 		
+		
 	}
 	
 //===================================================================================	
@@ -363,6 +387,7 @@ public class CrapsHelper {
 		printMessage(".");
 		sleep(dramaticPause);
 		printMessageln("you rolled a " + Craps.pointRoll);
+		timesRolledForPoint++;
 		
 	}
 	
@@ -381,6 +406,10 @@ public class CrapsHelper {
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
+				if(CrapsUI.gameWindow.isVisible()) {
+					sleep(3000);
+					CrapsUI.clearTextOutput();
+				}
 				break;
 			}
 			default:{
@@ -389,11 +418,15 @@ public class CrapsHelper {
 				 *  I am checking if pointRoll equals pointGoal
 				 */
 				if(Craps.pointRoll == Craps.pointGoal) {
-					printMessageln("Congratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
+					printMessageln("\nCongratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
 							+ "! You have rolled " + Craps.pointGoal + ". You win!");
 					Craps.didShooterWin = true;
 					Craps.didShooterCrap = false;
 					Craps.shootingForPoint = false;
+					if(CrapsUI.gameWindow.isVisible()) {
+						sleep(3000);
+						CrapsUI.clearTextOutput();
+					}
 					break;
 				} else {
 					Craps.didShooterWin = false;
@@ -418,7 +451,7 @@ public class CrapsHelper {
 	 * This is also where pointGoal is set.
 	 */
 	
-	
+	public static int timesRolledForPoint;
 	public static void comeOutResult() {
 		switch(Craps.comeOut) {
 			case 2: {
@@ -428,6 +461,10 @@ public class CrapsHelper {
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
+				if(CrapsUI.gameWindow.isVisible()) {
+					sleep(3000);
+					CrapsUI.clearTextOutput();
+				}
 				break;
 			} 
 			case 3: {
@@ -437,6 +474,10 @@ public class CrapsHelper {
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
+				if(CrapsUI.gameWindow.isVisible()) {
+					sleep(3000);
+					CrapsUI.clearTextOutput();
+				}
 				break;
 			}
 			case 12: {
@@ -446,6 +487,10 @@ public class CrapsHelper {
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
+				if(CrapsUI.gameWindow.isVisible()) {
+					sleep(3000);
+					CrapsUI.clearTextOutput();
+				}
 				break;
 			}
 			case 11://This is here because 11 and 7 have the same outcome
@@ -456,15 +501,27 @@ public class CrapsHelper {
 				Craps.didShooterWin = true;
 				Craps.didShooterCrap = false;
 				Craps.shootingForPoint = false;
+				if(CrapsUI.gameWindow.isVisible()) {
+					sleep(3000);
+					CrapsUI.clearTextOutput();
+				}
 				break;
 			}
 			default: {// This is when the shooter neither craps or wins on their comeOut
+				if(CrapsUI.gameWindow.isVisible()) {
+					sleep(3000);
+					CrapsUI.clearTextOutput();
+				}
+				timesRolledForPoint = 0;
 				Craps.pointGoal = Craps.comeOut; // This is where point goal is set
 				printMessageln("OK " + Craps.playerArray.get(Craps.shooterID).getName() + ", your point is " 
 						+ Craps.pointGoal + ". To win, you need to roll your point again, but if you roll a seven, you lose.");
 				Craps.didShooterWin = false;
 				Craps.didShooterCrap = false;
 				Craps.shootingForPoint = true;
+				if(CrapsUI.gameWindow.isVisible()) {
+					sleep(1500);
+				}
 				break;
 			}
 			
@@ -518,7 +575,11 @@ public class CrapsHelper {
 
 			
 		} else if (!Craps.didShooterCrap && !Craps.didShooterWin) {// This runs when shooting for point
+			if((timesRolledForPoint % 3) == 0 && timesRolledForPoint != 0) {
+				CrapsUI.clearTextOutput();
+			}
 			printMessageln("Rolling the dice again to try for your point...");
+			
 		}
 		
 		
@@ -576,16 +637,27 @@ public class CrapsHelper {
 	public static boolean queryPass() {
 		System.out.println();
 		willPass = true;
-		Craps.input.nextLine();
+		if(!CrapsUI.gameWindow.isVisible()) {
+			Craps.input.nextLine();
+		}
 		if (!Craps.playerArray.get(Craps.shooterID).hasLost()) {
-			printMessage(Craps.playerArray.get(Craps.shooterID).getName() 
-					+ ", do you want to roll again or pass the dice? "
-					+ "Enter Y to shoot again or enter P to pass the dice to the next shooter: ");
-			passResponse = Craps.input.nextLine();
-			if (passResponse.toLowerCase().trim().equals("y")) {
-				willPass = false;
+			if(!CrapsUI.gameWindow.isVisible()) {
+				printMessage(Craps.playerArray.get(Craps.shooterID).getName() 
+						+ ", do you want to roll again or pass the dice? "
+						+ "Enter Y to shoot again or enter P to pass the dice to the next shooter: ");
+				passResponse = Craps.input.nextLine();
+				if (passResponse.toLowerCase().trim().equals("y")) {
+					willPass = false;
+				}
+				System.out.println();
+			} else {
+				printMessage("\n" + Craps.playerArray.get(Craps.shooterID).getName() 
+						+ ", do you want to roll again or pass the dice? ");
+				CrapsUI.showQueryPassButtons();
+				CrapsUI.waitForInput();
+				CrapsUI.hideQueryPassButtons();
+				CrapsUI.clearTextOutput();
 			}
-			System.out.println();
 		}
 		return willPass;
 		
@@ -660,7 +732,7 @@ public class CrapsHelper {
 					
 					CrapsUI.betAmountSelect.addItem(i);
 				}
-				CrapsUI.showActionAmountSelection();
+				CrapsUI.showBetAmountSelection();
 				CrapsUI.waitForInput();
 				shooterBetInput = CrapsUI.betAmountSelect.getItemAt(CrapsUI.betAmountSelect.getSelectedIndex());
 				CrapsUI.clearTextOutput();
@@ -689,6 +761,7 @@ public class CrapsHelper {
 		Craps.playerArray.forEach((player) -> {
 			playerBetInput = 0;
 			if (!player.hasLost() && Craps.playerArray.indexOf(player) != Craps.shooterID && Craps.actionCoverage != Craps.actionAmount && Craps.bankRollArray.get(player.getBankRollIndex()) != Craps.shooterID) {
+				
 				System.out.println();
 				printMessage(player.getName());
 				printMessageln(" how much of the action do you want?");
@@ -697,23 +770,32 @@ public class CrapsHelper {
 				printMessage(" or your bank balance($");
 				printMessage("" + Craps.bankRollArray.get(player.getBankRollIndex()));
 				printMessage(") whichever is less: ");
-				// add if statement to check bet array and if there is a bet present make a different message for adding to your bet
-				do {
-					try {
-						playerBetInput = Craps.input.nextInt();
-					} catch (InputMismatchException ime) {
-						printMessageln("Invalid input.");
-					}
-					if (playerBetInput < 10 || playerBetInput > Craps.actionAmount || ((playerBetInput % 10) != 0) ) {
-						printMessage("Your bet must be at least $10 or up to the remaining action");
-						printMessage("$" + Craps.actionAmount);
-						printMessage("less than or equal to your current bank amount $");
-						printMessage("" + (Craps.bankRollArray.get(player.getBankRollIndex()) - Craps.betAmountArray.get(player.getBankRollIndex()))); 
-						printMessageln("and must be a multiple of 10.");
+				if(!CrapsUI.gameWindow.isVisible()) {
+					do {
+						try {
+							playerBetInput = Craps.input.nextInt();
+						} catch (InputMismatchException ime) {
+							printMessageln("Invalid input.");
+						}
+						if (playerBetInput < 10 || playerBetInput > Craps.actionAmount || ((playerBetInput % 10) != 0) ) {
+							printMessage("Your bet must be at least $10 or up to the remaining action");
+							printMessage("$" + Craps.actionAmount);
+							printMessage("less than or equal to your current bank amount $");
+							printMessage("" + (Craps.bankRollArray.get(player.getBankRollIndex()) - Craps.betAmountArray.get(player.getBankRollIndex()))); 
+							printMessageln("and must be a multiple of 10.");
+						}
+						
+					} while (playerBetInput < 10 || playerBetInput > (Craps.actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
+				} else {
+					CrapsUI.betAmountSelect.removeAllItems();
+					for(int i = 10; i <= Craps.actionAmount && i <= (Craps.actionAmount - Craps.actionCoverage) && i <= Craps.bankRollArray.get(player.getBankRollIndex()); i += 10) {
+						
+						CrapsUI.betAmountSelect.addItem(i);
 					}
 					
-				} while (playerBetInput < 10 || playerBetInput > (Craps.actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
-				
+					CrapsUI.waitForInput();
+					playerBetInput = CrapsUI.betAmountSelect.getItemAt(CrapsUI.betAmountSelect.getSelectedIndex());
+				}
 				Craps.betAmountArray.set(player.getBankRollIndex(), playerBetInput);
 				Craps.bankRollArray.set(player.getBankRollIndex(), (Craps.bankRollArray.get(player.getBankRollIndex()) - playerBetInput));
 				Craps.actionCoverage += playerBetInput;
@@ -722,8 +804,10 @@ public class CrapsHelper {
 					Craps.bankRollArray.set(Craps.shooterID, (Craps.bankRollArray.get(Craps.shooterID) + leftOver));
 					Craps.betAmountArray.set(Craps.shooterID, (Craps.betAmountArray.get(Craps.shooterID) - leftOver));
 				}
-			}
+			}// Large IF statement end
+			CrapsUI.clearTextOutput();
 		});
+		CrapsUI.hideBetAmountSelect();
 		printMessageln("The shooter's bet has been covered. NO MORE BETS!.");
 		
 		/* This is a debug print I used to ensure correct changes were made to the arrays 

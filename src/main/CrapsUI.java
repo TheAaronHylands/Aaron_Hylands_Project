@@ -20,16 +20,25 @@ public class CrapsUI implements ActionListener {
 	public static JButton playerNumberSelectButton;
 	
 	//PLayer name input section
-	public static JTextField player1NameInput, player2NameInput, player3NameInput, player4NameInput, player5NameInput, player6NameInput;
+	public static PromptTextField player1NameInput, player2NameInput, player3NameInput, player4NameInput, player5NameInput, player6NameInput;
 	public static JButton submitNamesButton;
 	
 	//Do you know the rules buttons
 	public static JButton noButton;
 	public static JButton yesButton;
 	
+	//Rules display
+	public static JTextArea rulesText;
+	public static JScrollPane rulesTextScrollPane;
+	public static JButton acceptRules;
+	
 	//Betting UI elements
 	public static JComboBox<Integer> betAmountSelect;
 	public static JButton betAmountSubmit;
+	
+	//Shoot or pass buttons
+	public static JButton shootAgainButton;
+	public static JButton passDiceButton;
 	
 	//Styling variables
 	public static Font mainFont = new Font("Courier New", Font.BOLD, 16);
@@ -86,7 +95,7 @@ public class CrapsUI implements ActionListener {
 		
 		
 		// Name input section
-		player1NameInput = new JTextField("Player1 Name");
+		player1NameInput = new PromptTextField("Player1 Name");
 		player1NameInput.setFont(mainFont);
 		player1NameInput.setBorder(BorderFactory.createLineBorder(ivory,1));
 		player1NameInput.setBackground(darkGrey);
@@ -95,7 +104,7 @@ public class CrapsUI implements ActionListener {
 		player1NameInput.setCaretColor(ivory);
 		player1NameInput.setVisible(false);
 		
-		player2NameInput = new JTextField("Player2 Name");
+		player2NameInput = new PromptTextField("Player2 Name");
 		player2NameInput.setFont(mainFont);
 		player2NameInput.setBorder(BorderFactory.createLineBorder(ivory,1));
 		player2NameInput.setBackground(darkGrey);
@@ -104,7 +113,7 @@ public class CrapsUI implements ActionListener {
 		player2NameInput.setCaretColor(ivory);
 		player2NameInput.setVisible(false);
 		
-		player3NameInput = new JTextField("Player3 Name");
+		player3NameInput = new PromptTextField("Player3 Name");
 		player3NameInput.setFont(mainFont);
 		player3NameInput.setBorder(BorderFactory.createLineBorder(ivory,1));
 		player3NameInput.setBackground(darkGrey);
@@ -113,7 +122,7 @@ public class CrapsUI implements ActionListener {
 		player3NameInput.setCaretColor(ivory);
 		player3NameInput.setVisible(false);
 		
-		player4NameInput = new JTextField("Player4 Name");
+		player4NameInput = new PromptTextField("Player4 Name");
 		player4NameInput.setFont(mainFont);
 		player4NameInput.setBorder(BorderFactory.createLineBorder(ivory,1));
 		player4NameInput.setBackground(darkGrey);
@@ -122,7 +131,7 @@ public class CrapsUI implements ActionListener {
 		player4NameInput.setCaretColor(ivory);
 		player4NameInput.setVisible(false);
 		
-		player5NameInput = new JTextField("Player5 Name");
+		player5NameInput = new PromptTextField("Player5 Name");
 		player5NameInput.setFont(mainFont);
 		player5NameInput.setBorder(BorderFactory.createLineBorder(ivory,1));
 		player5NameInput.setBackground(darkGrey);
@@ -131,7 +140,7 @@ public class CrapsUI implements ActionListener {
 		player5NameInput.setCaretColor(ivory);
 		player5NameInput.setVisible(false);
 		
-		player6NameInput = new JTextField("Player6 Name");
+		player6NameInput = new PromptTextField("Player6 Name");
 		player6NameInput.setFont(mainFont);
 		player6NameInput.setBorder(BorderFactory.createLineBorder(ivory,1));
 		player6NameInput.setBackground(darkGrey);
@@ -170,6 +179,33 @@ public class CrapsUI implements ActionListener {
 		noButton.setVisible(false);
 		
 		
+		//Rules display
+		rulesText = new JTextArea();
+		rulesText.setBackground(darkGrey);
+		rulesText.setForeground(ivory);
+		rulesText.setFont(mainFont);
+		rulesText.setEditable(false);
+		rulesText.setLineWrap(true);
+		rulesText.setWrapStyleWord(true);
+		fillRulesText();
+		
+		rulesTextScrollPane = new JScrollPane(rulesText);
+		rulesTextScrollPane.setBorder(BorderFactory.createLineBorder(ivory,1));
+		rulesTextScrollPane.getHorizontalScrollBar().setVisible(false);
+		rulesTextScrollPane.setBounds(75, 50, 625, 450);
+		rulesTextScrollPane.setVisible(false);
+		
+		acceptRules = new JButton("Accept");
+		acceptRules.addActionListener(eventListener);
+		acceptRules.setBackground(mediumGrey);
+		acceptRules.setForeground(ivory);
+		acceptRules.setFont(mainFont);
+		acceptRules.setBorder(BorderFactory.createLineBorder(ivory,1));
+		acceptRules.setBounds(705, 470, 80, 30);
+		acceptRules.setVisible(false);
+		
+		
+		
 		//Bet amount combo box
 		betAmountSelect = new JComboBox<Integer>();
 		betAmountSelect.setEditable(false);
@@ -190,6 +226,28 @@ public class CrapsUI implements ActionListener {
 		betAmountSubmit.setVisible(false);
 		
 		
+		
+		//Shoot or pass buttons
+		shootAgainButton = new JButton("Shoot Again");
+		shootAgainButton.addActionListener(eventListener);
+		shootAgainButton.setFont(mainFont);
+		shootAgainButton.setBorder(BorderFactory.createLineBorder(ivory,1));
+		shootAgainButton.setBackground(mediumGrey);
+		shootAgainButton.setForeground(ivory);
+		shootAgainButton.setBounds(280,400, 120, 30);
+		shootAgainButton.setVisible(false);
+		
+		passDiceButton = new JButton("Pass");
+		passDiceButton.addActionListener(eventListener);
+		passDiceButton.setFont(mainFont);
+		passDiceButton.setBorder(BorderFactory.createLineBorder(ivory,1));
+		passDiceButton.setBackground(mediumGrey);
+		passDiceButton.setForeground(ivory);
+		passDiceButton.setBounds(405,400, 80, 30);
+		passDiceButton.setVisible(false);
+		
+		
+		
 		//Layered Pane addition area
 		gamePane.add(outputText,1);
 		gamePane.add(playerNumberSelect,Integer.valueOf(2));
@@ -206,8 +264,14 @@ public class CrapsUI implements ActionListener {
 		gamePane.add(yesButton,Integer.valueOf(2));
 		gamePane.add(noButton,Integer.valueOf(2));
 		
+		gamePane.add(rulesTextScrollPane,Integer.valueOf(10));
+		gamePane.add(acceptRules,Integer.valueOf(10));
+		
 		gamePane.add(betAmountSelect,Integer.valueOf(2));
 		gamePane.add(betAmountSubmit,Integer.valueOf(2));
+		
+		gamePane.add(shootAgainButton,Integer.valueOf(2));
+		gamePane.add(passDiceButton,Integer.valueOf(2));
 		
 		
 		//Game window init area
@@ -223,16 +287,17 @@ public class CrapsUI implements ActionListener {
 		outputText.setText("");
 	}
 	
+	//Player number select UI element methods
 	public static void showPlayerSelect() {
 		playerNumberSelect.setVisible(true);
 		playerNumberSelectButton.setVisible(true);
 	}
-	
 	public static void hidePlayerSelect() {
 		playerNumberSelect.setVisible(false);
 		playerNumberSelectButton.setVisible(false);
 	}
 	
+	//Player name input UI element methods
 	public static void showPlayerNameInput() {
 		player1NameInput.setVisible(true);
 		player2NameInput.setVisible(true);
@@ -242,7 +307,6 @@ public class CrapsUI implements ActionListener {
 		player6NameInput.setVisible(true);
 		submitNamesButton.setVisible(true);
 	}
-	
 	public static void hidePlayerNameInput() {
 		player1NameInput.setVisible(false);
 		player2NameInput.setVisible(false);
@@ -253,27 +317,47 @@ public class CrapsUI implements ActionListener {
 		submitNamesButton.setVisible(false);
 	}
 	
+	//YesNo buttons UI element methods
 	public static void showYesNoButtons() {
 		yesButton.setVisible(true);
 		noButton.setVisible(true);
 	}
-	
 	public static void hideYesNoButtons() {
 		yesButton.setVisible(false);
 		noButton.setVisible(false);
 	}
 	
-	public static void showActionAmountSelection() {
+	//Rules window UI element methods
+	public static void showRulesWindow() {
+		rulesTextScrollPane.setVisible(true);
+		acceptRules.setVisible(true);
+	}
+	public static void hideRulesWindow() {
+		rulesTextScrollPane.setVisible(false);
+		acceptRules.setVisible(false);
+	}
+	
+	//Bet amount UI element methods
+	public static void showBetAmountSelection() {
 		betAmountSelect.setVisible(true);
 		betAmountSubmit.setVisible(true);
 	}
-	
-	public static void hideActionAmountSelect() {
+	public static void hideBetAmountSelect() {
 		betAmountSelect.setVisible(false);
 		betAmountSubmit.setVisible(false);
 	}
 	
+	//Query pass buttons UI element methods
+	public static void showQueryPassButtons() {
+		shootAgainButton.setVisible(true);
+		passDiceButton.setVisible(true);
+	}
+	public static void hideQueryPassButtons() {
+		shootAgainButton.setVisible(false);
+		passDiceButton.setVisible(false);
+	}
 	
+	//Wait for input methods
 	public static volatile boolean waitingForInput;
 	public static void waitForInput() {
 		
@@ -286,6 +370,8 @@ public class CrapsUI implements ActionListener {
 		waitingForInput = false;
 	}
 	
+	
+	//ActionPerformed switch 
 	public void actionPerformed(ActionEvent event) {
 		String submission = event.getActionCommand();
 		switch(submission) {
@@ -328,8 +414,41 @@ public class CrapsUI implements ActionListener {
 				inputSubmitted();
 				break;
 			}
+			case("Accept"): {
+				inputSubmitted();
+				break;
+			}
+			case("Shoot Again"): {
+				CrapsHelper.willPass = false;
+				inputSubmitted();
+				break;
+			}
+			case("Pass"): {
+				CrapsHelper.willPass = true;
+				inputSubmitted();
+				break;
+			}
 		
-		}
+		}// End of submission switch
+	}// End of actionPeformed
+	
+	//Method to fill the rules textArea
+	public static void fillRulesText() {
+		rulesText.setText("Objective: Players place bets and roll two six sided dice to determine the outcome.\r\n"
+				+ "\r\n"
+				+ "1. Setup: A “shooter” is designated, this shooter will roll the dice each round until they either lose by running out of money, or decide to pass the dice to the next player at the end of the round. A round ends once the shooter wins or loses.\r\n"
+				+ "\r\n"
+				+ "2. Betting: The shooter places a starting bet amount called the “action amount” into the “pot”(The place where the bets are held). After the action amount is set, each player in turn places their own bets in the pot in order to “cover” or meet the action amount. (eg. If an action amount of $100 is placed, the next non-shooter player can only  put forwards up to $100, if they do so they will cover the bet and no other players can place bets. If they only put $50 in, then the rest of the players must cover the rest of the bet if able.) If the players cannot cover the entire action amount, the action that is not covered will be returned to the shooter before rolling the “come out”.\r\n"
+				+ "\r\n"
+				+ "3. Rolling: Once bets are placed, the shooter rolls what is called the “come out” roll. It is important to note that the dice must be rolled and bounced off of a wall to ensure fair rolling. If the shooter rolls a total of 7 or 11, the shooter wins and gets all of the money in the pot. If the shooter rolls a 2, 3, or 12 then the shooter loses, and each player gets twice their bet amount from the pot. If the shooter rolls a 4, 5, 6, 8, 9 or 10, said roll is set as the “point”, and the point phase is entered.\r\n"
+				+ "\r\n"
+				+ "4. Point Phase: If the point phase is entered, the shooter continuously rolls the dice until they either roll the point set in the come out, or a 7. If the shooter rolls the point then they win the bets, and if they roll a 7 then they lose the bet.\r\n"
+				+ "\r\n"
+				+ "5. Next Shooter: After the bets have been settled and the shooter either wins or loses, as long as the shooter still has money left they can choose to shoot again. Alternatively they can choose to pass the dice to the next player, and that player is now the shooter. As long as there is more than one player with money left, the game continues and the shooter then rolls a come out roll.\r\n"
+				+ "\r\n"
+				+ "6. Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!\r\n"
+				+ "");
 	}
-}
+	
+}// End of class
  
