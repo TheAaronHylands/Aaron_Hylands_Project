@@ -18,7 +18,7 @@ public class Die {
 		sidesOnDie = sidesOnDieInput;
 	}
 	
-	public int roll() {// Roll function that returns what the die has rolled
+	public int roll() {// Roll method that returns what the die has rolled
 		
 		int result = randomGenerator.nextInt(sidesOnDie) + 1;
 		

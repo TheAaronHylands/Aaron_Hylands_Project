@@ -1,3 +1,17 @@
+/**
+ * This is my CrapsHelper class.
+ * This class holds all of the methods used in Craps.java as well
+ *  as some methods not used in Craps.Java
+ *  
+ * There are some variables only used in this class that I have
+ *  declared as private static. Usually it is above the method
+ *  that it is being used in.
+ *  
+ * I tried to be as thorough as possible in providing comments as
+ *  to the function of each method and what it does.
+ */
+
+
 package main;
 
 import java.util.InputMismatchException;
@@ -15,7 +29,6 @@ public class CrapsHelper {
 //                  	 \   /      |  |__  \_/  |     /__` |__) |__  |__  |  \
 //                  	  \ /       |  |___ / \  |     .__/ |    |___ |___ |__/  
 	public static int textSpeed = 7;
-	static boolean skipTheReturn;
 	public static void printMessage(String inputString) {
 		
 		for(int i = 0;i < inputString.length(); i++) {
@@ -91,7 +104,7 @@ public class CrapsHelper {
 	 * At the end of the method is a loop that utilizes inputCheck() to ensure the user
 	 * 	didn't make any typing mistakes when entering the name.
 	 */
-	static String nameHolder;
+	private static String nameHolder;
 	
 	public static void configurePlayerArray() {
 		
@@ -352,7 +365,7 @@ public class CrapsHelper {
 	 *  between each period in the message to allow for dramatic tension to build while
 	 *  waiting for the roll.
 	 */
-	static int dramaticPause = 500;
+	private static int dramaticPause = 500;
 	public static void rollComeOut() {
 		
 		
@@ -451,7 +464,7 @@ public class CrapsHelper {
 	 * This is also where pointGoal is set.
 	 */
 	
-	public static int timesRolledForPoint;
+	private static int timesRolledForPoint;//also used in adjustBankBalances
 	public static void comeOutResult() {
 		switch(Craps.comeOut) {
 			case 2: {
@@ -610,8 +623,8 @@ public class CrapsHelper {
 	 *  whether the main game loop runs or not
 	 */
 	
-	static boolean winnerDecided;
-	static int totalMoney;
+	private static boolean winnerDecided;
+	public static int totalMoney;
 	
 	public static boolean checkForWinner() {
 		winnerDecided = false;
@@ -631,8 +644,8 @@ public class CrapsHelper {
 
 //===================================================================================
 	
-	static String passResponse;
-	static boolean willPass;
+	private static String passResponse;
+	public static boolean willPass;
 	
 	public static boolean queryPass() {
 		System.out.println();
@@ -665,7 +678,7 @@ public class CrapsHelper {
 	
 //===================================================================================
 	
-	static int maxShooterID;
+	private static int maxShooterID;
 	public static void getNextShooter() {//aka find next available shooter
 		maxShooterID = (Craps.numberOfPlayers - 1);
 		int index;
@@ -701,8 +714,8 @@ public class CrapsHelper {
 	 */
 	
 	
-	static int shooterBetInput;
-	static int shooterBankAmount;
+	private static int shooterBetInput;
+	private static int shooterBankAmount;
 	
 	public static int getShooterBet() {
 		// checking shooter bank balance will be covered by getNextShooter
@@ -755,7 +768,7 @@ public class CrapsHelper {
 	 * Any excess that cannot be covered by the players is returned from the bet amount made by the
 	 *  shooter back into the shooters bankroll.
 	 */
-	static int playerBetInput;
+	private static int playerBetInput;
 	public static void getOpponentBet() {
 		Craps.actionCoverage = 0;
 		Craps.playerArray.forEach((player) -> {

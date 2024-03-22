@@ -14,23 +14,26 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
+//This class "extends" JTextField meaning that it becomes a subclass of it and inherits its methods and variables
 public class PromptTextField extends JTextField {
+			//Small error with not providing serialVersionUID, I'm not using serialization in this program so it's safe to ignore.
 	
 	public static Color promptIvory = new Color(145, 145, 140);
 	
-	public void setFontColorToPromptColor() {
+	public void setFontColorToPromptColor() {//This gives the prompt text a prompt-like color
 		this.setForeground(promptIvory);
 	}
-	public void setFontColorToRegularColor() {
+	public void setFontColorToRegularColor() {//This sets the text color back to the regular color 
 		this.setForeground(CrapsUI.ivory);
 	}
 	
-    public PromptTextField(final String promptText) {
+    public PromptTextField(final String promptText) {// This is the constructor
         super(promptText);
-        addFocusListener(new FocusListener() {
+        addFocusListener(new FocusListener() {//This is an event listener that looks for when the text field has been clicked on
 
-            @Override
-            public void focusLost(FocusEvent e) {
+            @Override //This tells the superclass that it's function is being overridden
+            public void focusLost(FocusEvent e) {	//This executes when the text field is clicked away from,
+            										// it also sets the text to the prompt text if the field is empty
             	
                 if(getText().isEmpty()) {
                     setText(promptText);
@@ -39,7 +42,8 @@ public class PromptTextField extends JTextField {
             }
 
             @Override
-            public void focusGained(FocusEvent e) {
+            public void focusGained(FocusEvent e) {	//This executes when the text field is clicked on,
+            										// it also sets the text to empty if the contents are the prompt
             	setFontColorToRegularColor();
                 if(getText().equals(promptText)) {
                     setText("");

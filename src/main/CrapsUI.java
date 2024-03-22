@@ -1,11 +1,26 @@
+
+/**
+ * This is my CrapsUI class
+ * This class handles all of the UI related functions of my game.
+ */
+
+
 package main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
  
+
 public class CrapsUI implements ActionListener {
 	
+	/*
+	 * I declare all of these UI elements as public static so that they
+	 *  can be accessed from anywhere in the program.
+	 */
+	
+	
+	//The event listener
 	public static CrapsUI eventListener = new CrapsUI();;
 	
 	//Game window and layered pane
@@ -19,7 +34,7 @@ public class CrapsUI implements ActionListener {
 	public static JComboBox<Integer> playerNumberSelect;
 	public static JButton playerNumberSelectButton;
 	
-	//PLayer name input section
+	//Player name input section
 	public static PromptTextField player1NameInput, player2NameInput, player3NameInput, player4NameInput, player5NameInput, player6NameInput;
 	public static JButton submitNamesButton;
 	
@@ -46,8 +61,10 @@ public class CrapsUI implements ActionListener {
 	public static Color mediumGrey = new Color(84,84,84);
 	public static Color ivory = new Color(255,255,240);
 	    
+	//Main method to load the games UI
 	public static void initGameWindow() {
 		
+		//Window frame and pane
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameWindow.setPreferredSize(new Dimension(800, 600));
 		gameWindow.setAutoRequestFocus(true);
@@ -55,6 +72,7 @@ public class CrapsUI implements ActionListener {
 		gamePane = new JLayeredPane();
 		gamePane.setOpaque(true);
 		gamePane.setBackground(darkGrey);
+		
 		
 		
 		//Output text area
@@ -67,6 +85,7 @@ public class CrapsUI implements ActionListener {
 		outputText.setFont(mainFont);
 		outputText.setBounds(200,100,400,320);
 		outputText.setBorder(BorderFactory.createEmptyBorder());
+		
 		
 		
 		//Number of players selection
@@ -92,6 +111,7 @@ public class CrapsUI implements ActionListener {
 		playerNumberSelectButton.setForeground(ivory);
 		playerNumberSelectButton.setBorder(BorderFactory.createLineBorder(ivory,1));
 		playerNumberSelectButton.setVisible(false);
+		
 		
 		
 		// Name input section
@@ -187,7 +207,7 @@ public class CrapsUI implements ActionListener {
 		rulesText.setEditable(false);
 		rulesText.setLineWrap(true);
 		rulesText.setWrapStyleWord(true);
-		fillRulesText();
+		fillRulesText();//This simply fills the rules text area
 		
 		rulesTextScrollPane = new JScrollPane(rulesText);
 		rulesTextScrollPane.setBorder(BorderFactory.createLineBorder(ivory,1));
@@ -249,7 +269,7 @@ public class CrapsUI implements ActionListener {
 		
 		
 		//Layered Pane addition area
-		gamePane.add(outputText,1);
+		gamePane.add(outputText,Integer.valueOf(1));
 		gamePane.add(playerNumberSelect,Integer.valueOf(2));
 		gamePane.add(playerNumberSelectButton,Integer.valueOf(2));
 		
@@ -274,7 +294,7 @@ public class CrapsUI implements ActionListener {
 		gamePane.add(passDiceButton,Integer.valueOf(2));
 		
 		
-		//Game window init area
+		//Get the game window frame ready and display it
 		gameWindow.add(gamePane);
 		
 		gameWindow.pack();
@@ -283,9 +303,16 @@ public class CrapsUI implements ActionListener {
 		
 	}
 	
+	//Method to clear the outputText text area
 	public static void clearTextOutput() {
 		outputText.setText("");
 	}
+	
+	/*
+	 * Below are methods used to hide and show groups
+	 *  of UI elements depending on the stage of the 
+	 *  game.
+	 */
 	
 	//Player number select UI element methods
 	public static void showPlayerSelect() {
@@ -357,8 +384,14 @@ public class CrapsUI implements ActionListener {
 		passDiceButton.setVisible(false);
 	}
 	
+	/*
+	 * These two methods below allow me to pause the execution
+	 *  of the program while I want it to wait for the user
+	 *  to interact with a UI element, usually a button.
+	 */
+	
 	//Wait for input methods
-	public static volatile boolean waitingForInput;
+	private static volatile boolean waitingForInput;
 	public static void waitForInput() {
 		
 		waitingForInput = true;
@@ -370,6 +403,10 @@ public class CrapsUI implements ActionListener {
 		waitingForInput = false;
 	}
 	
+	/*
+	 * This is the actionPerformed() method and it handles
+	 *  all of the action events created by the JButtons
+	 */
 	
 	//ActionPerformed switch 
 	public void actionPerformed(ActionEvent event) {

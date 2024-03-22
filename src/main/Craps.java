@@ -3,7 +3,6 @@
  * Purpose:			Simulates the game of Craps
  * @author			Aaron Hylands, 0740727
  * Date:			April 1, 2024 (DUE)
- * @since			1.0.0
  */
 
 package main;
@@ -11,6 +10,8 @@ package main;
 import java.util.*;
 
 public class Craps {
+	
+	// I originally declared these variables here when first making the program and decided to keep them here 
 	
 	public static Scanner input = new Scanner(System.in);
 	public static Die firstDie = new Die(6);
@@ -37,7 +38,9 @@ public class Craps {
 	
 	
 	
-	
+	//Main method, these comments describe what the program is doing 
+	// when in console mode and don't fully describe the CrapsUI
+	// implemented functionality
 	public static void main(String[]args) {
 		
 		//load UI
@@ -130,7 +133,7 @@ public class Craps {
 		} else {
 			CrapsHelper.printMessageln("***** AND WE HAVE THE GAME WINNER!*****");
 			CrapsHelper.printMessageln("Congratulations, " + winner.getName() + "!");
-			CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
+			CrapsHelper.printMessageln("You have won the total pot of $" + CrapsHelper.totalMoney + "!");
 		}
 		
 		
