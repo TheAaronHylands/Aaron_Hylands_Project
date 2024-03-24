@@ -10,6 +10,7 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
  
 
 public class CrapsUI implements ActionListener {
@@ -26,6 +27,9 @@ public class CrapsUI implements ActionListener {
 	//Game window and layered pane
 	public static JFrame gameWindow = new JFrame("Alley Craps");
 	public static JLayeredPane gamePane;
+	
+	//BankUI display
+	public static JTextArea bankAmountDisplay;
 	
 	//Output text area that outputs console text
 	public static JTextArea outputText;
@@ -68,10 +72,24 @@ public class CrapsUI implements ActionListener {
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameWindow.setPreferredSize(new Dimension(800, 600));
 		gameWindow.setAutoRequestFocus(true);
+		gameWindow.setUndecorated(false);
+		gameWindow.setAlwaysOnTop(true);
 		
 		gamePane = new JLayeredPane();
 		gamePane.setOpaque(true);
 		gamePane.setBackground(darkGrey);
+		gamePane.setBorder(BorderFactory.createLineBorder(ivory, 3));
+		
+		
+		
+		//Bank display UI
+		bankAmountDisplay = new JTextArea("");
+		bankAmountDisplay.setBackground(darkGrey);
+		bankAmountDisplay.setForeground(ivory);
+		bankAmountDisplay.setFont(mainFont);
+		bankAmountDisplay.setBorder(BorderFactory.createLineBorder(ivory, 2));
+		bankAmountDisplay.setBounds(7, 7, 120, 50);
+		bankAmountDisplay.setVisible(false);
 		
 		
 		
@@ -106,7 +124,7 @@ public class CrapsUI implements ActionListener {
 		playerNumberSelectButton = new JButton("Select # Of Players");
 		playerNumberSelectButton.addActionListener(eventListener);
 		playerNumberSelectButton.setFont(mainFont);
-		playerNumberSelectButton.setBounds(245, 432, 200, 26);
+		playerNumberSelectButton.setBounds(245, 430, 200, 30);
 		playerNumberSelectButton.setBackground(mediumGrey);
 		playerNumberSelectButton.setForeground(ivory);
 		playerNumberSelectButton.setBorder(BorderFactory.createLineBorder(ivory,1));
@@ -179,6 +197,7 @@ public class CrapsUI implements ActionListener {
 		submitNamesButton.setVisible(false);
 		
 		
+		
 		// Yes/No buttons
 		yesButton = new JButton("Yes");
 		yesButton.addActionListener(eventListener);
@@ -197,6 +216,7 @@ public class CrapsUI implements ActionListener {
 		noButton.setForeground(ivory);
 		noButton.setBounds(405,400, 75, 30);
 		noButton.setVisible(false);
+		
 		
 		
 		//Rules display
@@ -221,7 +241,7 @@ public class CrapsUI implements ActionListener {
 		acceptRules.setForeground(ivory);
 		acceptRules.setFont(mainFont);
 		acceptRules.setBorder(BorderFactory.createLineBorder(ivory,1));
-		acceptRules.setBounds(705, 470, 80, 30);
+		acceptRules.setBounds(702, 470, 80, 30);
 		acceptRules.setVisible(false);
 		
 		
@@ -273,6 +293,8 @@ public class CrapsUI implements ActionListener {
 		gamePane.add(playerNumberSelect,Integer.valueOf(2));
 		gamePane.add(playerNumberSelectButton,Integer.valueOf(2));
 		
+		gamePane.add(bankAmountDisplay,Integer.valueOf(3));
+		
 		gamePane.add(player1NameInput,Integer.valueOf(2));
 		gamePane.add(player2NameInput,Integer.valueOf(2));
 		gamePane.add(player3NameInput,Integer.valueOf(2));
@@ -313,6 +335,13 @@ public class CrapsUI implements ActionListener {
 	 *  of UI elements depending on the stage of the 
 	 *  game.
 	 */
+	//Bank display
+	public static void showBankDisplay() {
+		bankAmountDisplay.setVisible(true);
+	}
+	public static void hideBankDisplay() {
+		bankAmountDisplay.setVisible(false);
+	}
 	
 	//Player number select UI element methods
 	public static void showPlayerSelect() {
@@ -475,7 +504,7 @@ public class CrapsUI implements ActionListener {
 				+ "\r\n"
 				+ "1. Setup: A “shooter” is designated, this shooter will roll the dice each round until they either lose by running out of money, or decide to pass the dice to the next player at the end of the round. A round ends once the shooter wins or loses.\r\n"
 				+ "\r\n"
-				+ "2. Betting: The shooter places a starting bet amount called the “action amount” into the “pot”(The place where the bets are held). After the action amount is set, each player in turn places their own bets in the pot in order to “cover” or meet the action amount. (eg. If an action amount of $100 is placed, the next non-shooter player can only  put forwards up to $100, if they do so they will cover the bet and no other players can place bets. If they only put $50 in, then the rest of the players must cover the rest of the bet if able.) If the players cannot cover the entire action amount, the action that is not covered will be returned to the shooter before rolling the “come out”.\r\n"
+				+ "2. Betting: The shooter places a starting bet amount called the “action amount” into the “pot”(The place where the bets are held). After the action amount is set, each player in turn places their own bets in the pot in order to “cover” or meet the action amount. (eg. If an action amount of $100 is placed, the next non-shooter player can only put forwards up to $100, if they do so they will cover the bet and no other players can place bets. If they only put $50 in, then the rest of the players must cover the rest of the bet if able.) If the players cannot cover the entire action amount, the action that is not covered will be returned to the shooter before rolling the “come out”.\r\n"
 				+ "\r\n"
 				+ "3. Rolling: Once bets are placed, the shooter rolls what is called the “come out” roll. It is important to note that the dice must be rolled and bounced off of a wall to ensure fair rolling. If the shooter rolls a total of 7 or 11, the shooter wins and gets all of the money in the pot. If the shooter rolls a 2, 3, or 12 then the shooter loses, and each player gets twice their bet amount from the pot. If the shooter rolls a 4, 5, 6, 8, 9 or 10, said roll is set as the “point”, and the point phase is entered.\r\n"
 				+ "\r\n"
@@ -485,6 +514,53 @@ public class CrapsUI implements ActionListener {
 				+ "\r\n"
 				+ "6. Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!\r\n"
 				+ "");
+	}
+	
+	
+	private static int nameLengthMax = 0;
+	public static void configureBankDisplay() {
+		
+		ArrayList<Integer> nameLengthHolder = new ArrayList<Integer>();
+		
+		Craps.playerArray.forEach((player) -> {
+			nameLengthHolder.add(player.getName().length());
+		});
+		
+		
+		nameLengthHolder.forEach((nameLength) -> {
+			if(nameLength > nameLengthMax) {
+				nameLengthMax = nameLength;
+			}
+		});
+		
+		if(nameLengthMax > 11) {
+			nameLengthMax = 11;
+		}
+		
+		int bankDisplayHeight = Craps.numberOfPlayers * 20;
+		int bankDisplayWidth = (nameLengthMax * 10) + 70;
+		CrapsUI.bankAmountDisplay.setBounds(7, 7, bankDisplayWidth, bankDisplayHeight);
+		
+		
+	}
+	
+	public static void updateBankDisplay() {
+		bankAmountDisplay.setText("");
+		Craps.playerArray.forEach((player) -> {
+			String subStringHolder;
+			if (player.getName().length() <= 11) {
+				bankAmountDisplay.setText(bankAmountDisplay.getText() + player.getName()
+				+ " - $" 
+				+ Craps.bankRollArray.get(player.getBankRollIndex())
+				+ "\n");
+			} else {
+				subStringHolder = player.getName().substring(0,9) + "..";
+				bankAmountDisplay.setText(bankAmountDisplay.getText() + subStringHolder
+						+ " - $" 
+						+ Craps.bankRollArray.get(player.getBankRollIndex())
+						+ "\n");
+			}
+		});
 	}
 	
 }// End of class

@@ -62,6 +62,9 @@ public class Craps {
 		//  inside of bankRollArray with the players bankIndex
 		CrapsHelper.configureBankRollArray();
 		
+		if(CrapsUI.gameWindow.isVisible()) {
+			CrapsUI.showBankDisplay();
+		}
 		// Printing bank roll totals and players for debug reasons
 		CrapsHelper.printPlayerBankBalances();
 		
@@ -128,10 +131,11 @@ public class Craps {
 		} while (!gameIsDone);
 		System.out.println();
 		if(!CrapsUI.gameWindow.isVisible()) {
-			CrapsHelper.printMessageln("***** AND WE HAVE THE GAME WINNER! Congratulations, " + winner.getName() + "!*****");
+			CrapsHelper.printMessageln("***** AND WE HAVE A WINNER! Congratulations, " + winner.getName() + "!*****");
 			CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
 		} else {
-			CrapsHelper.printMessageln("***** AND WE HAVE THE GAME WINNER!*****");
+			CrapsUI.hideBankDisplay();
+			CrapsHelper.printMessageln("***** AND WE HAVE A WINNER!*****");
 			CrapsHelper.printMessageln("Congratulations, " + winner.getName() + "!");
 			CrapsHelper.printMessageln("You have won the total pot of $" + CrapsHelper.totalMoney + "!");
 		}
