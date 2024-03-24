@@ -206,7 +206,7 @@ public class CrapsHelper {
 		});
 		if(CrapsUI.gameWindow.isVisible()) {
 			CrapsUI.updateBankDisplay();
-			sleep(3000);
+			sleep(2000);
 			CrapsUI.clearTextOutput();
 		}
 		
@@ -320,7 +320,7 @@ public class CrapsHelper {
 			}
 		} else {
 			
-			printMessage("Do you know the rules?");
+			printMessage("          Do you know the rules?");
 			CrapsUI.showYesNoButtons();
 			CrapsUI.waitForInput();
 			CrapsUI.hideYesNoButtons();
@@ -366,10 +366,13 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	
+	//⚀ ⚁ ⚂ ⚃ ⚄ ⚅ <- Tried adding these but the text area won't support it.
 	public static int rollDice() {
+		
 		int rollTotal = Craps.firstDie.roll() + Craps.secondDie.roll();
+		
 		return rollTotal;
+		
 	}
 	
 //===================================================================================
@@ -383,7 +386,7 @@ public class CrapsHelper {
 		
 		
 		printMessage("***** Rolling the dice");
-		Craps.comeOut = rollDice();// Might as well make it so the program rolls while it says its rolling
+		Craps.comeOut = rollDice();;// Might as well make it so the program rolls while it says its rolling
 		sleep(dramaticPause);
 		printMessage(".");
 		sleep(dramaticPause);
@@ -391,7 +394,7 @@ public class CrapsHelper {
 		sleep(dramaticPause);
 		printMessage(".");
 		sleep(dramaticPause);
-		printMessageln("and the result is: " + Craps.comeOut + "! *****");
+		printMessageln(" " + Craps.comeOut + "! *****");
 		System.out.println();
 		
 		
@@ -403,16 +406,17 @@ public class CrapsHelper {
 	 *  the dramatic tension of the comeOut roll. It assigns the roll to Craps.pointRoll
 	 */
 	public static void rollForPoint() {
+		
 		printMessage("Rolling");
 		sleep(dramaticPause);
-		Craps.pointRoll = rollDice();
+		Craps.pointRoll = rollDice();;
 		printMessage(".");
 		sleep(dramaticPause);
 		printMessage(".");
 		sleep(dramaticPause);
 		printMessage(".");
 		sleep(dramaticPause);
-		printMessageln("you rolled " + Craps.pointRoll);
+		printMessageln(" " + Craps.pointRoll);
 		timesRolledForPoint++;
 		sleep(750);
 		
@@ -523,7 +527,7 @@ public class CrapsHelper {
 			case 11://This is here because 11 and 7 have the same outcome
 			case 7: {
 				printMessageln("Congratulations " + Craps.playerArray.get(Craps.shooterID).getName() 
-						+ "! You have rolled a natural. You win!");
+						+ "! You rolled a natural. You win!");
 				System.out.println();
 				Craps.didShooterWin = true;
 				Craps.didShooterCrap = false;
@@ -536,7 +540,7 @@ public class CrapsHelper {
 			}
 			default: {// This is when the shooter neither craps or wins on their comeOut
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(3000);
+					sleep(2000);
 					CrapsUI.clearTextOutput();
 				}
 				timesRolledForPoint = 0;
@@ -547,7 +551,7 @@ public class CrapsHelper {
 				Craps.didShooterCrap = false;
 				Craps.shootingForPoint = true;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(1500);
+					sleep(3000);
 				}
 				break;
 			}

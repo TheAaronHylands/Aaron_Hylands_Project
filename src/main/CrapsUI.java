@@ -535,9 +535,11 @@ public class CrapsUI implements ActionListener {
 		
 		if(nameLengthMax > 11) {
 			nameLengthMax = 11;
+		} else if (nameLengthMax < 5) {
+			nameLengthMax = 5;
 		}
 		
-		int bankDisplayHeight = Craps.numberOfPlayers * 20;
+		int bankDisplayHeight = (Craps.numberOfPlayers * 20) + 20;
 		int bankDisplayWidth = (nameLengthMax * 10) + 70;
 		CrapsUI.bankAmountDisplay.setBounds(7, 7, bankDisplayWidth, bankDisplayHeight);
 		
@@ -545,18 +547,18 @@ public class CrapsUI implements ActionListener {
 	}
 	
 	public static void updateBankDisplay() {
-		bankAmountDisplay.setText("");
+		bankAmountDisplay.setText("Name | Bank\n");
 		Craps.playerArray.forEach((player) -> {
 			String subStringHolder;
 			if (player.getName().length() <= 11) {
 				bankAmountDisplay.setText(bankAmountDisplay.getText() + player.getName()
-				+ " - $" 
+				+ " | $" 
 				+ Craps.bankRollArray.get(player.getBankRollIndex())
 				+ "\n");
 			} else {
 				subStringHolder = player.getName().substring(0,9) + "..";
 				bankAmountDisplay.setText(bankAmountDisplay.getText() + subStringHolder
-						+ " - $" 
+						+ " | $" 
 						+ Craps.bankRollArray.get(player.getBankRollIndex())
 						+ "\n");
 			}
