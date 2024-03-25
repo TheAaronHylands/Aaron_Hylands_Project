@@ -16,7 +16,10 @@ import javax.swing.JTextField;
 
 //This class "extends" JTextField meaning that it becomes a subclass of it and inherits its methods and variables
 public class PromptTextField extends JTextField {
-			//Small error with not providing serialVersionUID, I'm not using serialization in this program so it's safe to ignore.
+			/* /\ Minor error with not providing serialVersionUID.
+			 *     I'm not using serialization in this program so 
+			 *     it's safe to ignore.
+			 */
 	
 	public static Color promptIvory = new Color(145, 145, 140);
 	
@@ -33,8 +36,8 @@ public class PromptTextField extends JTextField {
 
             @Override //This tells the superclass that it's function is being overridden
             public void focusLost(FocusEvent e) {	//This executes when the text field is clicked away from,
-            										// it also sets the text to the prompt text if the field is empty
-            	
+            										// it also sets the text to the prompt text if the 
+            										// field is empty
                 if(getText().isEmpty()) {
                     setText(promptText);
                     setFontColorToPromptColor();
@@ -43,7 +46,8 @@ public class PromptTextField extends JTextField {
 
             @Override
             public void focusGained(FocusEvent e) {	//This executes when the text field is clicked on,
-            										// it also sets the text to empty if the contents are the prompt
+            										// it also sets the text to empty if the contents 
+            										// are the input prompt
             	setFontColorToRegularColor();
                 if(getText().equals(promptText)) {
                     setText("");
