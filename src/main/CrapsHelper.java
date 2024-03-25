@@ -20,9 +20,15 @@ import java.util.ArrayList;
 
 public class CrapsHelper {
 	
+	// Allowed global values
 	public static Scanner input = new Scanner(System.in);
 	public static int actionAmount;
 	
+	// Note there are some private static variables in this program
+	//  usually above the method they are used inside of. I have these
+	//  so that they can be accessed by the whole method. There are 
+	//  some instances where an enclosed scope is mentioned so I used
+	//  this to get around that.
 	
 	// Custom implementation global values
 	public static Die firstDie = new Die(6);
@@ -1050,18 +1056,18 @@ public class CrapsHelper {
 				As such I have not added functionality to re-query players 
 				 to add to their bet. 
 	*/
-	
+	private static int actionCoverage = 0;
 	public static ArrayList<Integer> getOpponentBet(ArrayList<Player> playerArray, ArrayList<Integer> bankRollArray, ArrayList<Integer> betAmountArray, int shooterID) {
-		Craps.actionCoverage = 0;
-		playerArray.forEach((player) -> {
+		actionCoverage = 0;
+		playerArray.forEach((player) -> {// Noticing here that I could have used a for loop to ensure that the player after the shooter
 			int playerBetInput = 0;
-			if (!player.hasLost() && playerArray.indexOf(player) != shooterID && Craps.actionCoverage != actionAmount) {
+			if (!player.hasLost() && playerArray.indexOf(player) != shooterID && actionCoverage != actionAmount) {
 				
 				System.out.println();
 				printMessage(player.getName());
 				printMessageln(" how much of the action do you want?");
 				printMessage("Betting less than $10 is for chumps and you can't bet higher than ");
-				printMessage("$" + (actionAmount - Craps.actionCoverage));
+				printMessage("$" + (actionAmount - actionCoverage));
 				printMessage(", or your life savings");
 				
 				if(!CrapsUI.gameWindow.isVisible()) {
@@ -1081,11 +1087,11 @@ public class CrapsHelper {
 							printMessageln("and must be a multiple of 10.");
 						}
 						
-					} while (playerBetInput < 10 || playerBetInput > (actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
+					} while (playerBetInput < 10 || playerBetInput > (actionAmount - actionCoverage) || ((playerBetInput % 10) != 0));
 				} else {
 					printMessage(".");
 					CrapsUI.betAmountSelect.removeAllItems();
-					for(int i = 10; i <= actionAmount && i <= (actionAmount - Craps.actionCoverage) && i <= bankRollArray.get(player.getBankRollIndex()); i += 10) {
+					for(int i = 10; i <= actionAmount && i <= (actionAmount - actionCoverage) && i <= bankRollArray.get(player.getBankRollIndex()); i += 10) {
 						
 						CrapsUI.betAmountSelect.addItem(i);
 					}
@@ -1094,15 +1100,15 @@ public class CrapsHelper {
 					playerBetInput = CrapsUI.betAmountSelect.getItemAt(CrapsUI.betAmountSelect.getSelectedIndex());
 				}
 				betAmountArray.set(player.getBankRollIndex(), playerBetInput);
-				Craps.actionCoverage += playerBetInput;
+				actionCoverage += playerBetInput;
 				
 			}// Large IF statement end
 			if (CrapsUI.gameWindow.isVisible()) {
 				CrapsUI.clearTextOutput();
 			}
 		});
-		if (Craps.actionCoverage < actionAmount) {
-			int leftOver = (actionAmount - Craps.actionCoverage);
+		if (actionCoverage < actionAmount) {
+			int leftOver = (actionAmount - actionCoverage);
 			betAmountArray.set(shooterID, (betAmountArray.get(shooterID) - leftOver));
 		}
 		if (CrapsUI.gameWindow.isVisible()) {

@@ -10,15 +10,7 @@ package main;
 import java.util.*;
 
 public class Craps {
-		
 
-
-
-	public static int actionCoverage; // Make non-global
-	
-
-	
-	
 	public static void main(String[]args) {
 		
 		//load UI
@@ -89,7 +81,9 @@ public class Craps {
 				
 				//adjust bankrollArray accordingly depending on the point roll
 				bankRollArray = CrapsHelper.adjustBankBalances(playerArray, bankRollArray, betAmountArray, shooterID, numberOfPlayers);
-				betAmountArray = CrapsHelper.clearBetAmountArray(betAmountArray);
+				if (CrapsHelper.didShooterWin || CrapsHelper.didShooterCrap ) {
+					betAmountArray = CrapsHelper.clearBetAmountArray(betAmountArray);
+				}
 				
 				// Check to see if any of the players are out after the round of betting
 				playerArray = CrapsHelper.checkForBust(playerArray, bankRollArray, betAmountArray);
