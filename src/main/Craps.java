@@ -37,7 +37,7 @@ public class Craps {
 		//   to interface with each array with the correct index
 		int numberOfPlayers = CrapsHelper.getNumberOfPlayers();
 		ArrayList<Player> playerArray = CrapsHelper.configurePlayerArray(numberOfPlayers);
-		System.out.println(playerArray.toString());
+		
 		// For each player, setup the starting amount of money
 		//  inside of bankRollArray with the players bankIndex
 		ArrayList<Integer> bankRollArray = CrapsHelper.configureBankRollArray(playerArray, numberOfPlayers);

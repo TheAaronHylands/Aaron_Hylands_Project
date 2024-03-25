@@ -531,7 +531,7 @@ public class CrapsHelper {
 		
 		
 		printMessage("***** Rolling the dice");
-		int comeOut = 7;//rollDice();;// Might as well make it so the program rolls while it says its rolling
+		int comeOut = rollDice();// Might as well make it so the program rolls while it says its rolling
 		sleep(dramaticPause);
 		printMessage(".");
 		sleep(dramaticPause);
