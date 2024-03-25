@@ -18,8 +18,17 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CrapsHelper {
-	//Moved scanner into CrapsHelper since this is where it is used
+	
 	public static Scanner input = new Scanner(System.in);
+	public static int actionAmount;
+	
+	
+	// Custom implementation global values
+	public static Die firstDie = new Die(6);
+	public static Die secondDie = new Die(6);
+	public static Player winner;
+	public static Player player1, player2, player3, player4, player5, player6;
+	 
 	
 	//	   			   \  /
 	// This is used for \/ most of the message delays. Default(3000)
@@ -136,21 +145,13 @@ public class CrapsHelper {
 //===================================================================================
 
 	/**
-	Name: 		configurePlayerArray
+	Name: 		getNumberOfPlayers
 	Parameters:	N/A
 	Return:		void
-	Purpose:	This method takes the users input and assigns the value of 2-6 to numberOfPlayers.
-				The method then calls setupPlayerArray() where the player objects are loaded.
-				At the end of the method is a loop that utilizes inputCheck() to ensure the user 
-				 didn't make any typing mistakes when entering the name.
+	Purpose:	This method sets up the number of players
 	*/
 	
-	private static String nameHolder;
-	
-	public static void configurePlayerArray() {
-		
-		// Collect number of players
-		
+	public static void getNumberOfPlayers() {
 		printMessage("Enter number of players(2-6): ");
 		while(Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
 			if(CrapsUI.gameWindow.isVisible()) {
@@ -177,6 +178,26 @@ public class CrapsHelper {
 			CrapsUI.submitNamesButton.setVisible(true);
 			CrapsUI.hidePlayerSelect();
 		}
+	}
+	
+//===================================================================================
+	
+	/**
+	Name: 		configurePlayerArray
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method takes the users input and assigns the value of 2-6 to numberOfPlayers.
+				The method then calls setupPlayerArray() where the player objects are loaded.
+				At the end of the method is a loop that utilizes inputCheck() to ensure the user 
+				 didn't make any typing mistakes when entering the name.
+	*/
+	
+	private static String nameHolder;
+	
+	public static void configurePlayerArray() {
+		
+		// Setup number of players
+		getNumberOfPlayers();
 		
 		// Setup player array
 		setupPlayerArray();
@@ -232,6 +253,7 @@ public class CrapsHelper {
 		});
 		if (CrapsUI.gameWindow.isVisible()) {
 			CrapsUI.configureBankDisplay();
+			CrapsUI.showBankDisplay();
 		}
 		
 	}
@@ -316,10 +338,10 @@ public class CrapsHelper {
 	public static void setupPlayerArray() {
 		
 		if(Craps.numberOfPlayers == 2 || Craps.numberOfPlayers > 1 ) {
-			Craps.player1 = new Player(1,0);
-			Craps.playerArray.add(Craps.player1);
-			Craps.player2 = new Player(2,1);
-			Craps.playerArray.add(Craps.player2);
+			player1 = new Player(1,0);
+			Craps.playerArray.add(player1);
+			player2 = new Player(2,1);
+			Craps.playerArray.add(player2);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player1NameInput.setVisible(true);
 				CrapsUI.player1NameInput.setFontColorToPromptColor();
@@ -328,32 +350,32 @@ public class CrapsHelper {
 			}
 		}
 		if(Craps.numberOfPlayers == 3 || Craps.numberOfPlayers > 2) {
-			Craps.player3 = new Player(3,2);
-			Craps.playerArray.add(Craps.player3);
+			player3 = new Player(3,2);
+			Craps.playerArray.add(player3);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player3NameInput.setVisible(true);
 				CrapsUI.player3NameInput.setFontColorToPromptColor();
 			}
 		}
 		if(Craps.numberOfPlayers == 4 || Craps.numberOfPlayers > 3) {
-			Craps.player4 = new Player(4,3);
-			Craps.playerArray.add(Craps.player4);
+			player4 = new Player(4,3);
+			Craps.playerArray.add(player4);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player4NameInput.setVisible(true);
 				CrapsUI.player4NameInput.setFontColorToPromptColor();
 			}
 		}
 		if(Craps.numberOfPlayers == 5 || Craps.numberOfPlayers > 4) {
-			Craps.player5 = new Player(5,4);
-			Craps.playerArray.add(Craps.player5);
+			player5 = new Player(5,4);
+			Craps.playerArray.add(player5);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player5NameInput.setVisible(true);
 				CrapsUI.player5NameInput.setFontColorToPromptColor();
 			}
 		}
 		if(Craps.numberOfPlayers == 6 || Craps.numberOfPlayers > 5) {
-			Craps.player6 = new Player(6,5);
-			Craps.playerArray.add(Craps.player6);
+			player6 = new Player(6,5);
+			Craps.playerArray.add(player6);
 			if(CrapsUI.gameWindow.isVisible()){
 				CrapsUI.player6NameInput.setVisible(true);
 				CrapsUI.player6NameInput.setFontColorToPromptColor();
@@ -456,7 +478,7 @@ public class CrapsHelper {
 	
 	public static int rollDice() {
 		
-		int rollTotal = Craps.firstDie.roll() + Craps.secondDie.roll();
+		int rollTotal = firstDie.roll() + secondDie.roll();
 		
 		return rollTotal;
 		
@@ -748,7 +770,7 @@ public class CrapsHelper {
 			} else if (timesRolledForPoint < 25) {
 				printMessageln("You know what, I give up, you win.");
 				sleep(longPause);
-				Craps.winner = Craps.playerArray.get(Craps.shooterID);
+				winner = Craps.playerArray.get(Craps.shooterID);
 				Craps.shootingForPoint = false;
 				Craps.bankRollArray.set(Craps.shooterID, (Craps.numberOfPlayers * 100));
 				CrapsUI.clearTextOutput();
@@ -792,7 +814,7 @@ public class CrapsHelper {
 	Name: 		checkForWinner
 	Parameters:	N/A
 	Return:		boolean
-	Purpose:	This method checks for a winner, if there is one it points Craps.winner 
+	Purpose:	This method checks for a winner, if there is one it points winner 
 				 at the winning player and returns the boolean value of winnerDecided. 
 				This gets applied to boolean gameIsDone which controls whether the 
 				 main game loop runs or not
@@ -809,7 +831,7 @@ public class CrapsHelper {
 		Craps.bankRollArray.forEach((bankAmount) -> {
 			if (bankAmount == totalMoney) {
 				winnerDecided = true;
-				Craps.winner = Craps.playerArray.get(Craps.bankRollArray.indexOf(bankAmount));
+				winner = Craps.playerArray.get(Craps.bankRollArray.indexOf(bankAmount));
 			} 
 		});
 		
@@ -974,13 +996,13 @@ public class CrapsHelper {
 		Craps.actionCoverage = 0;
 		Craps.playerArray.forEach((player) -> {
 			playerBetInput = 0;
-			if (!player.hasLost() && Craps.playerArray.indexOf(player) != Craps.shooterID && Craps.actionCoverage != Craps.actionAmount) {
+			if (!player.hasLost() && Craps.playerArray.indexOf(player) != Craps.shooterID && Craps.actionCoverage != actionAmount) {
 				
 				System.out.println();
 				printMessage(player.getName());
 				printMessageln(" how much of the action do you want?");
 				printMessage("Betting less than $10 is for chumps and you can't bet higher than ");
-				printMessage("$" + (Craps.actionAmount - Craps.actionCoverage));
+				printMessage("$" + (actionAmount - Craps.actionCoverage));
 				printMessage(", or your life savings");
 				
 				if(!CrapsUI.gameWindow.isVisible()) {
@@ -992,19 +1014,19 @@ public class CrapsHelper {
 						} catch (InputMismatchException ime) {
 							printMessageln("Invalid input.");
 						}
-						if (playerBetInput < 10 || playerBetInput > Craps.actionAmount || ((playerBetInput % 10) != 0) ) {
+						if (playerBetInput < 10 || playerBetInput > actionAmount || ((playerBetInput % 10) != 0) ) {
 							printMessage("Your bet must be at least $10 or up to the remaining action");
-							printMessage("$" + Craps.actionAmount);
+							printMessage("$" + actionAmount);
 							printMessage("less than or equal to your current life savings $");
 							printMessage("" + (Craps.bankRollArray.get(player.getBankRollIndex()) - Craps.betAmountArray.get(player.getBankRollIndex()))); 
 							printMessageln("and must be a multiple of 10.");
 						}
 						
-					} while (playerBetInput < 10 || playerBetInput > (Craps.actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
+					} while (playerBetInput < 10 || playerBetInput > (actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
 				} else {
 					printMessage(".");
 					CrapsUI.betAmountSelect.removeAllItems();
-					for(int i = 10; i <= Craps.actionAmount && i <= (Craps.actionAmount - Craps.actionCoverage) && i <= Craps.bankRollArray.get(player.getBankRollIndex()); i += 10) {
+					for(int i = 10; i <= actionAmount && i <= (actionAmount - Craps.actionCoverage) && i <= Craps.bankRollArray.get(player.getBankRollIndex()); i += 10) {
 						
 						CrapsUI.betAmountSelect.addItem(i);
 					}
@@ -1020,8 +1042,8 @@ public class CrapsHelper {
 				CrapsUI.clearTextOutput();
 			}
 		});
-		if (Craps.actionCoverage < Craps.actionAmount) {
-			int leftOver = (Craps.actionAmount - Craps.actionCoverage);
+		if (Craps.actionCoverage < actionAmount) {
+			int leftOver = (actionAmount - Craps.actionCoverage);
 			Craps.betAmountArray.set(Craps.shooterID, (Craps.betAmountArray.get(Craps.shooterID) - leftOver));
 		}
 		if (CrapsUI.gameWindow.isVisible()) {
@@ -1055,12 +1077,12 @@ public class CrapsHelper {
 	public static void launchCelebration() {
 		System.out.println();// For formatting
 		if(!CrapsUI.gameWindow.isVisible()) {
-			printMessageln("***** AND WE HAVE A WINNER! Congratulations, " + Craps.winner.getName() + "!*****");
+			printMessageln("***** AND WE HAVE A WINNER! Congratulations, " + winner.getName() + "!*****");
 			printMessageln("You have won the total pot of $" + (Craps.numberOfPlayers * 100) + "!");
 		} else {
 			CrapsUI.hideBankDisplay();
 			printMessageln("****** AND WE HAVE A WINNER!******");
-			printMessageln("Congratulations, " + Craps.winner.getName() + "!");
+			printMessageln("Congratulations, " + winner.getName() + "!");
 			printMessageln("You have won the total pot of $" + CrapsHelper.totalMoney + "!");
 			CrapsUI.celebrateUntilExit();
 		}

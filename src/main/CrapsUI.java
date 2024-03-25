@@ -484,20 +484,20 @@ public class CrapsUI implements ActionListener {
 			}
 			case("Submit Names"):{
 				if(player1NameInput.isVisible() && player2NameInput.isVisible()) {
-					Craps.player1.setName(player1NameInput.getText().trim());
-					Craps.player2.setName(player2NameInput.getText().trim());
+					CrapsHelper.player1.setName(player1NameInput.getText().trim());
+					CrapsHelper.player2.setName(player2NameInput.getText().trim());
 				}
 				if(player3NameInput.isVisible()) {
-					Craps.player3.setName(player3NameInput.getText().trim());
+					CrapsHelper.player3.setName(player3NameInput.getText().trim());
 				}
 				if(player4NameInput.isVisible()) {
-					Craps.player4.setName(player4NameInput.getText().trim());
+					CrapsHelper.player4.setName(player4NameInput.getText().trim());
 				}
 				if(player5NameInput.isVisible()) {
-					Craps.player5.setName(player5NameInput.getText().trim());
+					CrapsHelper.player5.setName(player5NameInput.getText().trim());
 				}
 				if(player6NameInput.isVisible()) {
-					Craps.player6.setName(player6NameInput.getText().trim());
+					CrapsHelper.player6.setName(player6NameInput.getText().trim());
 				}
 				inputSubmitted();
 				break;
