@@ -621,7 +621,9 @@ public class CrapsHelper {
 			
 		} else if (!Craps.didShooterCrap && !Craps.didShooterWin) {// This runs when shooting for point
 			if((timesRolledForPoint % 3) == 0 && timesRolledForPoint != 0) {
-				CrapsUI.clearTextOutput();
+				if (CrapsUI.gameWindow.isVisible()) {
+					CrapsUI.clearTextOutput();
+				}
 			}
 			if (timesRolledForPoint < 5) {
 				printMessageln("Rolling again to try for your point...");
@@ -794,7 +796,7 @@ public class CrapsHelper {
 					printMessageln("Enter a bet that is less than $" + Craps.bankRollArray.get(Craps.shooterID) + ", is at least $10, and is a multiple of 10.");
 					
 				}
-			} else {
+			} else if (CrapsUI.gameWindow.isVisible()) {
 				CrapsUI.betAmountSelect.removeAllItems();
 				for(int i = 10; i <= Craps.bankRollArray.get(Craps.shooterID); i += 10) {
 					
@@ -869,13 +871,17 @@ public class CrapsHelper {
 				Craps.actionCoverage += playerBetInput;
 				
 			}// Large IF statement end
-			CrapsUI.clearTextOutput();
+			if (CrapsUI.gameWindow.isVisible()) {
+				CrapsUI.clearTextOutput();
+			}
 		});
 		if (Craps.actionCoverage < Craps.actionAmount) {
 			int leftOver = (Craps.actionAmount - Craps.actionCoverage);
 			Craps.betAmountArray.set(Craps.shooterID, (Craps.betAmountArray.get(Craps.shooterID) - leftOver));
 		}
-		CrapsUI.hideBetAmountSelect();
+		if (CrapsUI.gameWindow.isVisible()) {
+			CrapsUI.hideBetAmountSelect();
+		}
 		printMessageln("The shooter's bet has been covered. \nNO MORE BETS!.");
 		
 		/* This is a debug print I used to ensure correct changes were made to the arrays 
