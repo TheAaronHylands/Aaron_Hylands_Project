@@ -135,9 +135,10 @@ public class Craps {
 			CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
 		} else {
 			CrapsUI.hideBankDisplay();
-			CrapsHelper.printMessageln("***** AND WE HAVE A WINNER!*****");
+			CrapsHelper.printMessageln("****** AND WE HAVE A WINNER!******");
 			CrapsHelper.printMessageln("Congratulations, " + winner.getName() + "!");
 			CrapsHelper.printMessageln("You have won the total pot of $" + CrapsHelper.totalMoney + "!");
+			CrapsUI.celebrateUntilExit();
 		}
 		
 		

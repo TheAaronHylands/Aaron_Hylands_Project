@@ -500,20 +500,19 @@ public class CrapsUI implements ActionListener {
 	
 	//Method to fill the rules textArea
 	public static void fillRulesText() {
-		rulesText.setText("Objective: Players place bets and roll two six sided dice to determine the outcome.\r\n"
+		rulesText.setText("Objective: 2-6 players place bets and roll two six sided dice to determine the outcome.\r\n"
 				+ "\r\n"
-				+ "1. Setup: A “shooter” is designated, this shooter will roll the dice each round until they either lose by running out of money, or decide to pass the dice to the next player at the end of the round. A round ends once the shooter wins or loses.\r\n"
+				+ "1. Setup: A “shooter” is designated. The shooter will roll the dice each round until they either: decide to pass the dice to the next player at the end of the round, or lose by running out of money. A round ends once the shooter wins or loses.\r\n"
 				+ "\r\n"
-				+ "2. Betting: The shooter places a starting bet amount called the “action amount” into the “pot”(The place where the bets are held). After the action amount is set, each player in turn places their own bets in the pot in order to “cover” or meet the action amount. (eg. If an action amount of $100 is placed, the next non-shooter player can only put forwards up to $100, if they do so they will cover the bet and no other players can place bets. If they only put $50 in, then the rest of the players must cover the rest of the bet if able.) If the players cannot cover the entire action amount, the action that is not covered will be returned to the shooter before rolling the “come out”.\r\n"
+				+ "2. Betting: The shooter places a starting bet amount called the “action amount” into the  place where the bets are held or the “pot”. Once the action amount is set, each player in turn places their own bets in the pot in order to “cover” or meet the action amount. (eg. If an action amount of $100 is placed, the next non-shooter player can only  put forwards up to $100, if they do so they will cover the bet and no other players can place bets. If they only put $50 in, then the next players must cover the rest of the bet if able.) If the players are incapable of covering the entire action amount, the action that is not covered will be returned to the shooter before rolling the “come out” roll.\r\n"
 				+ "\r\n"
-				+ "3. Rolling: Once bets are placed, the shooter rolls what is called the “come out” roll. It is important to note that the dice must be rolled and bounced off of a wall to ensure fair rolling. If the shooter rolls a total of 7 or 11, the shooter wins and gets all of the money in the pot. If the shooter rolls a 2, 3, or 12 then the shooter loses, and each player gets twice their bet amount from the pot. If the shooter rolls a 4, 5, 6, 8, 9 or 10, said roll is set as the “point”, and the point phase is entered.\r\n"
+				+ "3. Rolling: Once bets are placed, the shooter rolls what is called the “come out” roll. It is important to note that the dice must be rolled and bounced off of a wall to ensure a fair roll has been madel. If the shooter rolls a total of 7 or 11, the shooter wins and gets all of the money in the pot. If the shooter rolls a 2, 3, or 12 then the shooter loses, and each player gets twice their bet amount from the pot. If the shooter rolls a 4, 5, 6, 8, 9 or 10, said roll is set as the “point”, and the point phase is entered.\r\n"
 				+ "\r\n"
 				+ "4. Point Phase: If the point phase is entered, the shooter continuously rolls the dice until they either roll the point set in the come out, or a 7. If the shooter rolls the point then they win the bets, and if they roll a 7 then they lose the bet.\r\n"
 				+ "\r\n"
 				+ "5. Next Shooter: After the bets have been settled and the shooter either wins or loses, as long as the shooter still has money left they can choose to shoot again. Alternatively they can choose to pass the dice to the next player, and that player is now the shooter. As long as there is more than one player with money left, the game continues and the shooter then rolls a come out roll.\r\n"
 				+ "\r\n"
-				+ "6. Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!\r\n"
-				+ "");
+				+ "6. Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!");
 	}
 	
 	
@@ -563,6 +562,38 @@ public class CrapsUI implements ActionListener {
 						+ "\n");
 			}
 		});
+	}
+	
+	
+	private static Color red = new Color(255,0,0);
+	private static Color orange = new Color(255, 123, 0);
+	private static Color yellow = new Color(255,255,0);
+	private static Color green = new Color(0,255,0);
+	private static Color blue = new Color(0,0,255);
+	private static Color violet = new Color(125, 0, 255);
+	
+	private static int celebrateTime = 100;
+	public static void celebrateUntilExit() {
+		//I finally found a use for an infinite loop, this method will make the output text font 
+		//  circulate through colors to emulate celebration
+		
+		
+		while(true) {
+			
+			outputText.setForeground(red);
+			CrapsHelper.sleep(celebrateTime);
+			outputText.setForeground(orange);
+			CrapsHelper.sleep(celebrateTime);
+			outputText.setForeground(yellow);
+			CrapsHelper.sleep(celebrateTime);
+			outputText.setForeground(green);
+			CrapsHelper.sleep(celebrateTime);
+			outputText.setForeground(blue);
+			CrapsHelper.sleep(celebrateTime);
+			outputText.setForeground(violet);
+			CrapsHelper.sleep(celebrateTime);
+			
+		}
 	}
 	
 }// End of class

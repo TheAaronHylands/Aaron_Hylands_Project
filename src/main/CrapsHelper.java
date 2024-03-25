@@ -30,6 +30,12 @@ public class CrapsHelper {
 //                  	 \   /      |  |__  \_/  |     /__` |__) |__  |__  |  \
 //                  	  \ /       |  |___ / \  |     .__/ |    |___ |___ |__/  
 	public static int textSpeed = 5;
+	
+//					   \  /
+	// This is used for \/ most of the message delays.
+	public static int longPause = 3000;
+	
+	
 	public static void printMessage(String inputString) {
 		
 		for(int i = 0;i < inputString.length(); i++) {
@@ -206,7 +212,7 @@ public class CrapsHelper {
 		});
 		if(CrapsUI.gameWindow.isVisible()) {
 			CrapsUI.updateBankDisplay();
-			sleep(2000);
+			sleep(longPause);
 			CrapsUI.clearTextOutput();
 		}
 		
@@ -493,7 +499,7 @@ public class CrapsHelper {
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(3000);
+					sleep(longPause);
 					CrapsUI.clearTextOutput();
 				}
 				break;
@@ -506,7 +512,7 @@ public class CrapsHelper {
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(3000);
+					sleep(longPause);
 					CrapsUI.clearTextOutput();
 				}
 				break;
@@ -519,7 +525,7 @@ public class CrapsHelper {
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(3000);
+					sleep(longPause);
 					CrapsUI.clearTextOutput();
 				}
 				break;
@@ -533,16 +539,13 @@ public class CrapsHelper {
 				Craps.didShooterCrap = false;
 				Craps.shootingForPoint = false;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(3000);
+					sleep(longPause);
 					CrapsUI.clearTextOutput();
 				}
 				break;
 			}
 			default: {// This is when the shooter neither craps or wins on their comeOut
-				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(2000);
-					CrapsUI.clearTextOutput();
-				}
+				
 				timesRolledForPoint = 0;
 				Craps.pointGoal = Craps.comeOut; // This is where point goal is set
 				printMessageln("OK " + Craps.playerArray.get(Craps.shooterID).getName() + ", your point is " 
@@ -551,7 +554,8 @@ public class CrapsHelper {
 				Craps.didShooterCrap = false;
 				Craps.shootingForPoint = true;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(3000);
+					sleep(longPause+2000);
+					CrapsUI.clearTextOutput();
 				}
 				break;
 			}
