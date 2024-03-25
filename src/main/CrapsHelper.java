@@ -19,23 +19,33 @@ import java.util.ArrayList;
 
 public class CrapsHelper {
 	
+	//	   			   \  /
+	// This is used for \/ most of the message delays. Default(3000)
+	private static int longPause = 3000;
+	
+	//				   \  /
+	// This is used for \/ the point roll message added to longPause to allow for reading time. Default (2000)
+	private static int mediumPause = 2000;
+	
+	//					\  /
+	// This is the pause \/ in the welcome message. Default(750)
+	private static int welcomeMessagePause = 750;
+	
+	
+	
 	
 //===================================================================================	
-	//This is a custom method that I made originally for my text based adventure game,(The Caves of Amnesia)  
-	//  So that text would print onto the screen one character at a time. I felt that the typing animation
-	//  of the characters added immersion, and something much more stimulating for the brain to experience.
+	/* This is a custom method that I made originally for my text based adventure game,(The Caves of Amnesia)  
+	 *  so that text would print onto the screen one character at a time. I felt that the typing animation
+	 *  of the characters added immersion, and something much more stimulating for the brain to experience.
+	 */  
 	
-	//Text speed can be set to 0 for instant printing
+	//Text speed can be set to 0 for instant printing. Default(5)
 //						\     /    ___  ___     ___     __   __   ___  ___  __
 //                  	 \   /      |  |__  \_/  |     /__` |__) |__  |__  |  \
 //                  	  \ /       |  |___ / \  |     .__/ |    |___ |___ |__/  
 	public static int textSpeed = 5;
-	
-//					   \  /
-	// This is used for \/ most of the message delays.
-	public static int longPause = 3000;
-	
-	
+
 	public static void printMessage(String inputString) {
 		
 		for(int i = 0;i < inputString.length(); i++) {
@@ -83,7 +93,7 @@ public class CrapsHelper {
 	 */
 	
 	public static void printWelcomeMessage() {
-		sleep(750);
+		sleep(welcomeMessagePause);
 		printMessageln("       _______       _______");
 		printMessageln("     /\\       \\     /       /\\");
 		printMessageln("    /()\\   ()  \\   /  ()   /()\\");
@@ -102,7 +112,7 @@ public class CrapsHelper {
 		printMessageln("|    /~~\\ | \\| .__/ |  | /~~\\ |/\\| |___");
 		printMessageln("");
 		printMessageln("");
-		sleep(750);
+		sleep(welcomeMessagePause);
 	}
 	
 //===================================================================================
@@ -387,6 +397,7 @@ public class CrapsHelper {
 	 *  between each period in the message to allow for dramatic tension to build while
 	 *  waiting for the roll.
 	 */
+	// This is the delay \/ between periods when rolling. Default(500)
 	private static int dramaticPause = 500;
 	public static void rollComeOut() {
 		
@@ -411,6 +422,8 @@ public class CrapsHelper {
 	/* This method is the same as rollComeOut but has slightly different word formatting while retaining
 	 *  the dramatic tension of the comeOut roll. It assigns the roll to Craps.pointRoll
 	 */
+	// This is the pause \/ after each point roll. Default(750)
+	private static int rollForPointPause = 750;
 	public static void rollForPoint() {
 		
 		printMessage("Rolling");
@@ -424,7 +437,7 @@ public class CrapsHelper {
 		sleep(dramaticPause);
 		printMessageln(" " + Craps.pointRoll);
 		timesRolledForPoint++;
-		sleep(750);
+		sleep(rollForPointPause);
 		
 	}
 	
@@ -444,7 +457,7 @@ public class CrapsHelper {
 				Craps.didShooterCrap = true;
 				Craps.shootingForPoint = false;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(3000);
+					sleep(longPause);
 					CrapsUI.clearTextOutput();
 				}
 				break;
@@ -461,7 +474,7 @@ public class CrapsHelper {
 					Craps.didShooterCrap = false;
 					Craps.shootingForPoint = false;
 					if(CrapsUI.gameWindow.isVisible()) {
-						sleep(3000);
+						sleep(longPause);
 						CrapsUI.clearTextOutput();
 					}
 					break;
@@ -554,7 +567,7 @@ public class CrapsHelper {
 				Craps.didShooterCrap = false;
 				Craps.shootingForPoint = true;
 				if(CrapsUI.gameWindow.isVisible()) {
-					sleep(longPause+2000);
+					sleep(longPause + mediumPause);
 					CrapsUI.clearTextOutput();
 				}
 				break;
