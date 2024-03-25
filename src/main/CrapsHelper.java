@@ -15,8 +15,11 @@
 package main;
 
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class CrapsHelper {
+	//Moved scanner into CrapsHelper since this is where it is used
+	public static Scanner input = new Scanner(System.in);
 	
 	//	   			   \  /
 	// This is used for \/ most of the message delays. Default(3000)
@@ -134,10 +137,10 @@ public class CrapsHelper {
 				CrapsUI.waitForInput();
 			} else {
 				try {
-					Craps.numberOfPlayers = Craps.input.nextInt();
+					Craps.numberOfPlayers = input.nextInt();
 				} catch(InputMismatchException ime) {
 					printMessageln("Invalid.");
-					Craps.input.nextLine();
+					input.nextLine();
 				}
 				if (Craps.numberOfPlayers < 2 || Craps.numberOfPlayers > 6) {
 					printMessageln("Invalid.");
@@ -159,7 +162,7 @@ public class CrapsHelper {
 		
 		// This portion is for setting the names of the players
 		if(!CrapsUI.gameWindow.isVisible()) {	
-			Craps.input.nextLine();
+			input.nextLine();
 			Craps.playerArray.forEach((player) -> {
 				do {
 					System.out.println();
@@ -167,7 +170,7 @@ public class CrapsHelper {
 							+ player.getNumber()
 							+ " Name: ");
 					
-					nameHolder = Craps.input.nextLine();
+					nameHolder = input.nextLine();
 				}while(!inputCheck(nameHolder,player.getNumber()));
 				
 				player.setName(nameHolder);
@@ -244,7 +247,7 @@ public class CrapsHelper {
 		String userResponse;
 		printMessageln("Your input: " + inputString.trim());
 		printMessage("Verify y/n: ");
-		userResponse = Craps.input.nextLine();
+		userResponse = input.nextLine();
 		if(userResponse.toLowerCase().trim().equals("y")) {
 			return true;
 		} else {
@@ -321,7 +324,7 @@ public class CrapsHelper {
 		System.out.println();
 		if(!CrapsUI.gameWindow.isVisible()) {
 			printMessage("Do you know the rules? y/n: ");
-			String userInput = Craps.input.nextLine();
+			String userInput = input.nextLine();
 			switch(userInput.toLowerCase().trim()) {
 				case"n":{
 					printRules();
@@ -715,14 +718,14 @@ public class CrapsHelper {
 		System.out.println();
 		willPass = true;
 		if(!CrapsUI.gameWindow.isVisible()) {
-			Craps.input.nextLine();
+			input.nextLine();
 		}
 		if (!Craps.playerArray.get(Craps.shooterID).hasLost()) {
 			if(!CrapsUI.gameWindow.isVisible()) {
 				printMessage(Craps.playerArray.get(Craps.shooterID).getName() 
 						+ ", do you want to roll again or pass the dice? "
 						+ "Enter Y to shoot again or enter P to pass the dice to the next shooter: ");
-				passResponse = Craps.input.nextLine();
+				passResponse = input.nextLine();
 				if (passResponse.toLowerCase().trim().equals("y")) {
 					willPass = false;
 				}
@@ -799,7 +802,7 @@ public class CrapsHelper {
 			
 			if(!CrapsUI.gameWindow.isVisible()) {
 				try {
-					shooterBetInput = Craps.input.nextInt();
+					shooterBetInput = input.nextInt();
 				} catch (InputMismatchException ime) {
 					printMessageln("Invalid input.");
 				}
@@ -855,7 +858,7 @@ public class CrapsHelper {
 					printMessage("): ");
 					do {
 						try {
-							playerBetInput = Craps.input.nextInt();
+							playerBetInput = input.nextInt();
 						} catch (InputMismatchException ime) {
 							printMessageln("Invalid input.");
 						}

@@ -11,9 +11,12 @@ import java.util.*;
 
 public class Craps {
 	
-	// I originally declared these variables here when first making the program and decided to keep them here 
+	/* I originally declared these variables here when first 
+	 *  making the program and decided to keep them here instead
+	 *  of moving them into CrapsHelper. Additionally I decided
+	 *  to use global variables instead 
+	 */
 	
-	public static Scanner input = new Scanner(System.in);
 	public static Die firstDie = new Die(6);
 	public static Die secondDie = new Die(6);
 	public static int rollTotal;
