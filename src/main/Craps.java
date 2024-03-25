@@ -88,7 +88,8 @@ public class Craps {
 			// Figure out the outcome of the come out roll
 			CrapsHelper.comeOutResult();
 			
-			// Adjust bank balances or continue to point game accordingly
+			// Adjust bank balances according to the come out 
+			//  or continue to point roll stage 
 			CrapsHelper.adjustBankBalances();
 			
 			// Check to see if any of the players are out after the round of betting
@@ -103,9 +104,9 @@ public class Craps {
 				CrapsHelper.rollForPoint();
 				
 				//check outcome
-				CrapsHelper.pointRollResult();// Working on this now
+				CrapsHelper.pointRollResult();
 				
-				//adjust bankroll accordingly or continue game
+				//adjust bankrollArray accordingly depending on the roll
 				CrapsHelper.adjustBankBalances();
 				
 				// Check to see if any of the players are out after the round of betting
@@ -116,33 +117,24 @@ public class Craps {
 				
 				
 			}
-			
-			if (!gameIsDone) {// Print totals before queryPass
+			// Print totals before queryPass if the game has not ended
+			if (!gameIsDone) {
 				CrapsHelper.printMessageln("\nAfter this pass, here are the bankroll balances for everyone:");
 				CrapsHelper.printPlayerBankBalances();
 			}
 			
-			//get next shooter if game is not done
+			// Get next shooter if game is not done and the current
+			//  shooter decides to pass
 			if (!gameIsDone) {
 				if (CrapsHelper.queryPass()) {
 					CrapsHelper.getNextShooter();
 				}
 			}
 			
+		} while (!gameIsDone); // Game loop end
 		
-			
-		} while (!gameIsDone);
-		System.out.println();
-		if(!CrapsUI.gameWindow.isVisible()) {
-			CrapsHelper.printMessageln("***** AND WE HAVE A WINNER! Congratulations, " + winner.getName() + "!*****");
-			CrapsHelper.printMessageln("You have won the total pot of $" + (numberOfPlayers * 100) + "!");
-		} else {
-			CrapsUI.hideBankDisplay();
-			CrapsHelper.printMessageln("****** AND WE HAVE A WINNER!******");
-			CrapsHelper.printMessageln("Congratulations, " + winner.getName() + "!");
-			CrapsHelper.printMessageln("You have won the total pot of $" + CrapsHelper.totalMoney + "!");
-			CrapsUI.celebrateUntilExit();
-		}
+		// Launch celebration message for the winner
+		CrapsHelper.launchCelebration();
 		
 		
 	}//End of main method

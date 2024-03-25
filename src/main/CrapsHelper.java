@@ -896,13 +896,37 @@ public class CrapsHelper {
 		}
 		printMessageln("The shooter's bet has been covered. \nNO MORE BETS!.");
 		
+		
+		
 		/* This is a debug print I used to ensure correct changes were made to the arrays 
 		 *  while developing.
 		 */
 //		printMessageln("These are the betting and bank arrays:");
 //		printMessageln(Craps.bankRollArray.toString());
 //		printMessageln(Craps.betAmountArray.toString());
+		
+		
 		System.out.println();// This is for formatting
+	}
+	
+//===================================================================================
+	//launchCelebration()
+	/* This method launches the proper celebration message depending on
+	 *  whether the gameWindow from CrapsUI is visible.
+	 */
+	
+	public static void launchCelebration() {
+		System.out.println();// For formatting
+		if(!CrapsUI.gameWindow.isVisible()) {
+			printMessageln("***** AND WE HAVE A WINNER! Congratulations, " + Craps.winner.getName() + "!*****");
+			printMessageln("You have won the total pot of $" + (Craps.numberOfPlayers * 100) + "!");
+		} else {
+			CrapsUI.hideBankDisplay();
+			printMessageln("****** AND WE HAVE A WINNER!******");
+			printMessageln("Congratulations, " + Craps.winner.getName() + "!");
+			printMessageln("You have won the total pot of $" + CrapsHelper.totalMoney + "!");
+			CrapsUI.celebrateUntilExit();
+		}
 	}
 	
 }//End of class
