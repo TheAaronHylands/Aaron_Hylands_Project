@@ -44,10 +44,11 @@ public class Craps {
 	public static void main(String[]args) {
 		
 		//load UI
-		//Disable \/this\/ to play the game in the console
+		//		 \  /  \  /
+		//Disable \/this\/ via // to play the game in the console
 		CrapsUI.initGameWindow();
 		
-		//Welcome message here	
+		//Print the welcome message
 		CrapsHelper.printWelcomeMessage();
 
 		// Setup players:
