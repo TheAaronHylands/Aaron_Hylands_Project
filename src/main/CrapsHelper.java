@@ -531,7 +531,7 @@ public class CrapsHelper {
 		
 		
 		printMessage("***** Rolling the dice");
-		int comeOut = rollDice();// Might as well make it so the program rolls while it says its rolling
+		int comeOut = rollDice();
 		sleep(dramaticPause);
 		printMessage(".");
 		sleep(dramaticPause);
@@ -566,7 +566,7 @@ public class CrapsHelper {
 		
 		printMessage("Rolling");
 		sleep(dramaticPause);
-		int pointRoll = rollDice();;
+		int pointRoll = rollDice();
 		printMessage(".");
 		sleep(dramaticPause);
 		printMessage(".");
@@ -754,7 +754,7 @@ public class CrapsHelper {
 	
 	public static ArrayList<Integer> adjustBankBalances(ArrayList<Player> playerArray, ArrayList<Integer> bankRollArray, ArrayList<Integer> betAmountArray, int shooterID, int numberOfPlayers) {
 		if (!didShooterWin && didShooterCrap) {//Shooter craps out 
-			//Take the amount the shooter put up for betting and divide it according to the action covered.
+			
 			playerArray.forEach((player) -> {
 				
 				if (player.getBankRollIndex() == shooterID) {
@@ -769,8 +769,7 @@ public class CrapsHelper {
 			});
 
 			//For debug purposes while developing to determine accuracy of array changes.
-//			printMessageln(bankRollArray.toString());
-//			printMessageln(betAmountArray.toString());
+
 			
 			if(CrapsUI.gameWindow.isVisible()) {
 				CrapsUI.updateBankDisplay(playerArray, bankRollArray);
@@ -778,6 +777,7 @@ public class CrapsHelper {
 			return bankRollArray;
 			
 		} else if (didShooterWin && !didShooterCrap) {// Shooter wins
+
 			playerArray.forEach((player) -> {
 
 				if (player.getBankRollIndex() == shooterID) {// I have to split this into two seperate methods so each is returned and modified accordingly
@@ -793,6 +793,7 @@ public class CrapsHelper {
 				}
 				
 			});
+
 			
 			if(CrapsUI.gameWindow.isVisible()) {
 				CrapsUI.updateBankDisplay(playerArray, bankRollArray);

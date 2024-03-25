@@ -69,7 +69,9 @@ public class Craps {
 			// Adjust bank balances according to the come out and clear betArray
 			//  or continue to point roll stage 
 			bankRollArray = CrapsHelper.adjustBankBalances(playerArray, bankRollArray, betAmountArray, shooterID, numberOfPlayers);
-			betAmountArray = CrapsHelper.clearBetAmountArray(betAmountArray);
+			if (!CrapsHelper.shootingForPoint) {
+				betAmountArray = CrapsHelper.clearBetAmountArray(betAmountArray);
+			}
 			
 			// Check to see if any of the players are out after the round of betting
 			CrapsHelper.checkForBust(playerArray, bankRollArray, betAmountArray);
