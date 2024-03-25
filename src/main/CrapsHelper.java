@@ -15,7 +15,6 @@
 package main;
 
 import java.util.InputMismatchException;
-import java.util.ArrayList;
 
 public class CrapsHelper {
 	
