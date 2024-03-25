@@ -33,14 +33,19 @@ public class CrapsHelper {
 	// This is the pause \/ in the welcome message. Default(750)
 	private static int welcomeMessagePause = 750;
 	
-	
-	
+
 	
 //===================================================================================	
-	/* This is a custom method that I made originally for my text based adventure game,(The Caves of Amnesia)  
-	 *  so that text would print onto the screen one character at a time. I felt that the typing animation
-	 *  of the characters added immersion, and something much more stimulating for the brain to experience.
-	 */  
+	
+	/**
+	Name: 		printMessage & printMessageln
+	Parameters:	String inputString
+	Return:		void
+	Purpose:	This is a custom method that I made originally for my text based adventure game,
+	   			 (The Caves of Amnesia) so that text would print onto the screen one character at a time. 
+	   			 I felt that the typing animation of the characters added immersion, and something much 
+	   			 more stimulating for the brain to experience.
+	*/
 	
 	//Text speed can be set to 0 for instant printing. Default(5)
 //						\     /    ___  ___     ___     __   __   ___  ___  __
@@ -81,6 +86,13 @@ public class CrapsHelper {
 		System.out.println();
 	}
 	
+	/**
+	Name: 		sleep
+	Parameters:	int sleepTime
+	Return:		void
+	Purpose:	This method is used to add pauses in executon to improve user expereince
+	*/
+	
 	public static void sleep(int sleepTime) {
 		try {
 			Thread.sleep(sleepTime);
@@ -90,9 +102,13 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//printWelcomeMessage()
-	/* This method prints an ASCII art welcome message
-	 */
+
+	/**
+	Name: 		printWelcomeMessage
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method prints an ASCII art welcome message
+	*/
 	
 	public static void printWelcomeMessage() {
 		sleep(welcomeMessagePause);
@@ -118,12 +134,17 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================
-	//configurePlayerArray() 
-	/* This method takes the users input and assigns the value of 2-6 to numberOfPlayers
-	 * The method then calls setupPlayerArray() where the player objects are loaded
-	 * At the end of the method is a loop that utilizes inputCheck() to ensure the user
-	 * 	didn't make any typing mistakes when entering the name.
-	 */
+
+	/**
+	Name: 		configurePlayerArray
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method takes the users input and assigns the value of 2-6 to numberOfPlayers.
+				The method then calls setupPlayerArray() where the player objects are loaded.
+				At the end of the method is a loop that utilizes inputCheck() to ensure the user 
+				 didn't make any typing mistakes when entering the name.
+	*/
+	
 	private static String nameHolder;
 	
 	public static void configurePlayerArray() {
@@ -191,12 +212,18 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//configureBankRollArray()
-	/* This method initializes the betAmountArray and bankRollArray by only adding the amount of indexes
-	 *  that corresponds with the amount of players. I do this using forEach from the playerArray, allowing
-	 *  for the creation of each array index only for the amount of players in the game. I utilize my get methods
-	 *  from within player to synchronize the indexes. 
-	 */
+
+	/**
+	Name: 		configureBankRollArray
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method initializes the betAmountArray and bankRollArray by only 
+				 adding the amount of indexes that corresponds with the amount of players.
+				I do this using forEach from the playerArray, allowing for the creation 
+				 of each array index only for the amount of players in the game.
+				I utilize my get methods from within player to synchronize the indexes. 
+	*/
+	
 	public static void configureBankRollArray(){
 		
 		Craps.playerArray.forEach((player) -> {
@@ -210,9 +237,13 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	// printPlayerBankBalances()
-	/* This method simply prints the players number, their name, and their bankroll amount
-	 */
+
+	/**
+	Name: 		printPlayerBankBalances
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method simply prints the players number, their name, and their bankroll amount
+	*/
 	
 	public static void printPlayerBankBalances() {
 		
@@ -231,12 +262,19 @@ public class CrapsHelper {
 	}//printPlayerBankBalances() end
 	
 //===================================================================================	
-	//inputCheck()
-	/* This method returns a boolean value depending on the users input. It provides the string
-	 *  that the user inputted and queries a y or n. This method does not return true unless y
-	 *  is inputted, any other input is assumed to be a no. If an empty name is provided then
-	 *  the method returns false and prints a reminder to the console to provide a name.
-	 */
+
+	/**
+	Name: 		inputCheck
+	Parameters:	String inputString, int inputInt
+	Return:		boolean
+	Purpose:	This method returns a boolean value depending on the users input. 
+				It provides the string that the user inputted and queries a y or n. 
+				This method does not return true unless y is inputted, any other 
+				 input is assumed to be a no. 
+				If an empty name is provided then the method returns false and 
+				 prints a reminder to the console to provide a name.
+	*/
+	
 	public static boolean inputCheck(String inputString,int inputInt) {
 		
 		if(inputString.trim().length() < 1) {
@@ -257,14 +295,24 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//setupPlayerArray()
-	/* This method takes the numberOfPlayers and loads the ArrayList of playerArray with the requisite
-	 *  amount of Player objects. These player objects hold the players name, and this method of loading
-	 *  the array allows for standardized indexing of each player. player1 is always in index 0, player2 index 1 etc.
-	 * I used a list of if statements to allow for adding onto the array as needed for the amount of players.
-	 *  If there are only two players then only the first if statement runs, creating and placing the player object
-	 *  into the array. If the numberOfPlayers is 3 then the second if statement runs adding a third player etc.
-	 */
+
+	/**
+	Name: 		setupPlayerArray
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method takes the numberOfPlayers and loads the ArrayList of playerArray 
+				 with the requisite amount of Player objects. 
+				These player objects hold the players name, and this method of loading the 
+				 array allows for standardized indexing of each player (player1 is always 
+				 in index 0, player2 index 1 etc.)
+				I used a list of if statements to allow for adding onto the array as needed
+				 for the amount of players. (If there are only two players then only the first 
+				 if statement runs, creating and placing the player object into the array. If 
+				 the numberOfPlayers is 3 then the second if statement runs adding a third 
+				 player etc.)
+				
+	*/
+	
 	public static void setupPlayerArray() {
 		
 		if(Craps.numberOfPlayers == 2 || Craps.numberOfPlayers > 1 ) {
@@ -314,11 +362,16 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//queryRules()
-	/* This method is for printing the rules if the user doesn't know how to play the game.
-	 * If the user inputs that they know the rules, this method instead prints a message
-	 *  acknowledging that and stating that it's time for the game to start.
-	 */
+
+	/**
+	Name: 		queryRules
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method is for printing the rules if the user doesn't know how to play the game.
+				If the user inputs that they know the rules, this method instead prints a message 
+				 acknowledging that and stating that it's time for the game to start.
+	*/
+	
 	public static String yesNo;
 	public static void queryRules() {
 		System.out.println();
@@ -364,6 +417,13 @@ public class CrapsHelper {
 	
 //===================================================================================	
 	
+	/**
+	Name: 		printRules
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This prints the rules to the console
+	*/
+	
 	public static void printRules() {
 		printMessageln("Objective: Players place bets and roll two six sided dice to determine the outcome.\r\n"
 				+ "\r\n"
@@ -384,7 +444,16 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//⚀ ⚁ ⚂ ⚃ ⚄ ⚅ <- Tried adding these but the text area won't support it.
+	//⚀ ⚁ ⚂ ⚃ ⚄ ⚅ <- Tried adding these but the swing textArea won't support it.
+	
+	/**
+	Name: 		rollDice
+	Parameters:	N/A
+	Return:		int
+	Purpose:	This method runs the .roll() method for each Die object and returns
+				 the total amount.
+	*/
+	
 	public static int rollDice() {
 		
 		int rollTotal = Craps.firstDie.roll() + Craps.secondDie.roll();
@@ -394,11 +463,16 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================
-	//rollComeOut()
-	/* This method rolls the comeOut roll from the shooter. I utilize my sleep() method 
-	 *  between each period in the message to allow for dramatic tension to build while
-	 *  waiting for the roll.
-	 */
+
+	/**
+	Name: 		rollComeOut
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method rolls the comeOut roll from the shooter.
+				I utilize my sleep() method between each period in the message 
+				 to allow for dramatic tension to build while waiting for the roll.
+	*/
+	
 	// This is the delay \/ between periods when rolling. Default(500)
 	private static int dramaticPause = 500;
 	public static void rollComeOut() {
@@ -420,10 +494,19 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//rollForPoint()
-	/* This method is the same as rollComeOut but has slightly different word formatting while retaining
-	 *  the dramatic tension of the comeOut roll. It assigns the roll to Craps.pointRoll
+	//()
+	/* 
 	 */
+	
+	/**
+	Name: 		rollForPoint
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method is the same as rollComeOut but has slightly different word 
+				 formatting while retaining the dramatic tension of the comeOut roll. 
+				It assigns the roll to Craps.pointRoll
+	*/
+	
 	// This is the pause \/ after each point roll. Default(750)
 	private static int rollForPointPause = 750;
 	public static void rollForPoint() {
@@ -444,11 +527,16 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//pointRollResult
-	/* This method determines the outcome of the point roll with the value stored within Craps.pointRoll
-	 * I use the same combination of boolean values to determine the outcome of each point roll so that the same
-	 *  method adjustBankBalances can be used.
-	 */
+
+	/**
+	Name: 		pointRollResult
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method determines the outcome of the point roll with the value stored within Craps.pointRoll
+				I use the same combination of boolean values to determine the outcome of each point roll so that 
+				 the same method adjustBankBalances can be used.
+	*/
+	
 	public static void pointRollResult() {
 		
 		switch(Craps.pointRoll) {
@@ -493,15 +581,20 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//comeOutResult()
-	/* This method handles the result of the comeOut roll. I decided to use a switch. Depending on the
-	 *  outcome a combination of the three boolean values didShooterWin and didShooterCrap are set.
-	 *  With the combined outcome of these boolean values, I determine the outcome of the roll in 
-	 *  adjustBankBalances(). 
-	 * Additionally the boolean value shootingForPoint determines whether
-	 *  the shooting for point loop is entered or not. 
-	 * This is also where pointGoal is set.
-	 */
+
+	/**
+	Name: 		comeOutResult
+	Parameters:	N/A
+	Return:		int
+	Purpose:	This method handles the result of the comeOut roll with a switch case.
+				Depending on the outcome a combination of the three boolean values 
+				 didShooterWin and didShooterCrap are set.
+				With the combined outcome of these boolean values, I determine the 
+				 outcome of the roll in adjustBankBalances().
+				Additionally the boolean value shootingForPoint determines whether 
+				 the shooting for point loop is entered or not. 
+				This is also where pointGoal is set.
+	*/
 	
 	private static int timesRolledForPoint;//also used in adjustBankBalances
 	public static void comeOutResult() {
@@ -580,11 +673,15 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//adjustBankBalances()
-	/* This method adjusts the bank balances according to the combination of the boolean values
-	 *  didShooterWin and didShooterCrap, set in the previous method comeOutResult()
-	 */
-	
+
+	/**
+	Name: 		adjustBankBalances
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method adjusts the bank balances according to the combination 
+				 of the boolean values didShooterWin and didShooterCrap, set in the
+				 previous method comeOutResult()
+	*/
 	
 	public static void adjustBankBalances() {
 		if (!Craps.didShooterWin && Craps.didShooterCrap) {//Shooter craps out 
@@ -666,11 +763,17 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//checkForBust()
-	/* This method checks if any players have bust, if so it runs the Player method of gameOver()
-	 *  and sets the players isOut boolean to true. I check this value when determining whether a player
-	 *  can interact with the game with betting or shooting.
-	 */
+	
+	/**
+	Name: 		checkForBust
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method checks if any players have bust, if so it runs the Player
+	 			 method of gameOver() and sets the players isOut boolean to true. 
+	 			I check this value when determining whether a player can interact with 
+	 			 the game with betting or shooting.
+	*/
+	
 	public static void checkForBust() {
 		// check if any players are out of the game
 			Craps.bankRollArray.forEach((account) -> {
@@ -684,11 +787,16 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//checkForWinner()
-	/* This method checks for a winner, if there is one it points Craps.winner at the winning player and 
-	 *  returns the boolean value of winnerDecided. This gets applied to boolean gameIsDone which controls
-	 *  whether the main game loop runs or not
-	 */
+
+	/**
+	Name: 		checkForWinner
+	Parameters:	N/A
+	Return:		boolean
+	Purpose:	This method checks for a winner, if there is one it points Craps.winner 
+				 at the winning player and returns the boolean value of winnerDecided. 
+				This gets applied to boolean gameIsDone which controls whether the 
+				 main game loop runs or not
+	*/
 	
 	private static boolean winnerDecided;
 	public static int totalMoney;
@@ -710,6 +818,14 @@ public class CrapsHelper {
 	}
 
 //===================================================================================
+	
+	/**
+	Name: 		queryPass
+	Parameters:	N/A
+	Return:		boolean
+	Purpose:	This method queries the shooter at the end of the round if they would
+				 like to shoot again or pass the dice to the next player who can shoot
+	*/
 	
 	private static String passResponse;
 	public static boolean willPass;
@@ -745,6 +861,14 @@ public class CrapsHelper {
 	
 //===================================================================================
 	
+	/**
+	Name: 		getNextShooter
+	Parameters:	N/A
+	Return:		void
+	Purpose:	Gets the next available shooter from the list of players and assigns 
+				 the shooterID accordingly
+	*/
+	
 	private static int maxShooterID;
 	public static void getNextShooter() {//aka find next available shooter
 		maxShooterID = (Craps.numberOfPlayers - 1);
@@ -768,18 +892,20 @@ public class CrapsHelper {
 		
 	}
 	
-//===================================================================================	
-	//getShooterBet()
-	/* This method sets the actionAmount from user input based on some restrictions
-	 * These restrictions include the shooters bank balance, whether the input is
-	 *  divisible by 10, and that it is above 0
-	 * 
-	 * Instead of restricting the maximum actionAmount to the maximum amount of money
-	 *  that the other players can bet, the game instead adjusts the shooters bet to
-	 *  meet the coverage if it can't be fully covered. This is handled in the 
-	 *  getOpponentBet() method underneath this one.
-	 */
+//===================================================================================
 	
+	/**
+	Name: 		getShooterBet
+	Parameters:	N/A
+	Return:		int
+	Purpose:	This method sets the actionAmount from user input based on some restrictions. 
+				These restrictions include the shooters bank balance, whether the input is 
+				 divisible by 10, and that it is above 0
+				Instead of restricting the maximum actionAmount to the maximum amount of money 
+				 that the other players can bet, the game instead adjusts the shooters bet to 
+				 meet the coverage if it can't be fully covered. This is handled in the 
+				 getOpponentBet() method underneath this one.
+	*/
 	
 	private static int shooterBetInput;
 	private static int shooterBankAmount;
@@ -831,14 +957,18 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================	
-	//getOpponentBet()
-	/* This method collects the bets from the other players. I've been instructed to assume that
-	 *  the coverage will be met by the time all players are queried for coverage. As such I have 
-	 *  not added functionality to re-query players to add to their bet. 
-	 *  
-	 * Any excess that cannot be covered by the players is returned from the bet amount made by the
-	 *  shooter back into the shooters bankroll.
-	 */
+	
+	/**
+	Name: 		getOpponentBet
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method collects the bets from the other players. 
+				I've been instructed to assume that the coverage will 
+				 be met by the time all players are queried for coverage. 
+				As such I have not added functionality to re-query players 
+				 to add to their bet. 
+	*/
+	
 	private static int playerBetInput;
 	public static void getOpponentBet() {
 		Craps.actionCoverage = 0;
@@ -913,10 +1043,14 @@ public class CrapsHelper {
 	}
 	
 //===================================================================================
-	//launchCelebration()
-	/* This method launches the proper celebration message depending on
-	 *  whether the gameWindow from CrapsUI is visible.
-	 */
+	
+	/**
+	Name: 		launchCelebration
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method launches the proper celebration message depending 
+				 on whether the gameWindow from CrapsUI is visible.
+	*/
 	
 	public static void launchCelebration() {
 		System.out.println();// For formatting

@@ -64,7 +64,16 @@ public class CrapsUI implements ActionListener {
 	public static Color darkGrey = new Color(42,42,42);
 	public static Color mediumGrey = new Color(84,84,84);
 	public static Color ivory = new Color(255,255,240);
-	    
+	
+	
+	
+	/**
+	Name: 		initGameWindow
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This loads the gameUI
+	*/
+	
 	//Main method to load the games UI
 	public static void initGameWindow() {
 		
@@ -324,16 +333,28 @@ public class CrapsUI implements ActionListener {
 		gameWindow.setVisible(true);
 		
 	}
+
+//===================================================================================
 	
-	//Method to clear the outputText text area
+	/**
+	Name: 		clearTextOutput
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method clears the outputText textArea
+	*/
+
 	public static void clearTextOutput() {
 		outputText.setText("");
 	}
 	
+//===================================================================================
 	/*
 	 * Below are methods used to hide and show groups
 	 *  of UI elements depending on the stage of the 
-	 *  game.
+	 *  game. I decided not to provide the usual naming
+	 *  standard for these methods since they are 
+	 *  extra-curricular, and it would only serve
+	 *  to clutter the code in this case.
 	 */
 	//Bank display
 	public static void showBankDisplay() {
@@ -413,13 +434,17 @@ public class CrapsUI implements ActionListener {
 		passDiceButton.setVisible(false);
 	}
 	
-	/*
-	 * These two methods below allow me to pause the execution
-	 *  of the program while I want it to wait for the user
-	 *  to interact with a UI element, usually a button.
-	 */
-	
+//===================================================================================
 	//Wait for input methods
+	
+	/**
+	Name: 		waitForInput
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This makes the program wait until inputSubmitted() is called.
+				I use this to have the program wait until the user clicks a button.
+	*/
+	
 	private static volatile boolean waitingForInput;
 	public static void waitForInput() {
 		
@@ -428,17 +453,27 @@ public class CrapsUI implements ActionListener {
 		
 	}
 	
+	/**
+	Name: 		inputSubmitted
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method releases the while loop in waitForInput() and resumes
+				 program execution
+	*/
+	
 	public static void inputSubmitted() {
 		waitingForInput = false;
 	}
 	
+//===================================================================================
+	/**
+	Name: 		actionPerformed
+	Parameters:	ActionEvent event
+	Return:		void
+	Purpose:	This handles all of the action events created by the JButtons
+	 			 with a switch statement
+	*/
 	
-	/*
-	 * This is the actionPerformed() method and it handles
-	 *  all of the action events created by the JButtons
-	 */
-	
-	//ActionPerformed switch 
 	public void actionPerformed(ActionEvent event) {
 		String submission = event.getActionCommand();
 		switch(submission) {
@@ -498,8 +533,16 @@ public class CrapsUI implements ActionListener {
 		
 		}// End of submission switch
 	}// End of actionPeformed
+
+//===================================================================================
 	
-	//Method to fill the rules textArea when initializing UI
+	/**
+	Name: 		fillRulesText
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method fills the rules textArea when initializing UI
+	*/
+
 	public static void fillRulesText() {
 		rulesText.setText("Objective: 2-6 players place bets and roll two six sided dice to determine the outcome.\r\n"
 				+ "\r\n"
@@ -516,10 +559,15 @@ public class CrapsUI implements ActionListener {
 				+ "6. Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!");
 	}
 	
-	/* This method sets up the bank display 
-	 *  in the top left, configuring the size 
-	 *  for name length and amount of players.
-	 */
+//===================================================================================
+	/**
+	Name: 		configureBankDisplay
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method sets up the bank display in the top left,
+	 			 configuring the size for name length and amount of players.
+	*/
+	
 	private static int nameLengthMax = 0;
 	public static void configureBankDisplay() {
 		
@@ -559,7 +607,14 @@ public class CrapsUI implements ActionListener {
 		
 	}
 	
-	//This method updates the bank amount display in the top left of the screen
+//===================================================================================
+	/**
+	Name: 		updateBankDisplay
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This method updates the bank amount display in the top left of the screen
+	*/
+
 	public static void updateBankDisplay() {
 		bankAmountDisplay.setText("Name | Bank\n");
 		Craps.playerArray.forEach((player) -> {
@@ -580,10 +635,17 @@ public class CrapsUI implements ActionListener {
 	}
 	
 	
+//===================================================================================
+	/**
+	Name: 		celebrateUntilExit
+	Parameters:	N/A
+	Return:		void
+	Purpose:	This celebrates by changing the outputText foreground
+				 color until the program is terminated.
+	*/
 	
-	/*
-	 * These variables are for the celebrateUntilExit() method
-	 */
+	
+	//These color variables are exclusively for the celebrateUntilExit() method
 	private static Color red = new Color(255,0,0);
 	private static Color orange = new Color(255, 123, 0);
 	private static Color yellow = new Color(255,255,0);
@@ -593,8 +655,7 @@ public class CrapsUI implements ActionListener {
 	
 	private static int celebrateTime = 100;
 	public static void celebrateUntilExit() {
-		//I finally found a use for an infinite loop, this method will make the output text font 
-		//  circulate through colors to emulate celebration
+		//I finally found a use for an infinite loop!
 		
 		
 		while(true) {
@@ -614,6 +675,7 @@ public class CrapsUI implements ActionListener {
 			
 		}
 	}
+//===================================================================================
 	
 }// End of class
  
