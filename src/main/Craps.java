@@ -12,19 +12,11 @@ import java.util.*;
 public class Craps {
 		
 
-	public static ArrayList<Player> playerArray = new ArrayList<Player>(); // Make non-global
-	public static ArrayList<Integer> bankRollArray = new ArrayList<Integer>(); // Make non-global
-	public static ArrayList<Integer> betAmountArray = new ArrayList<Integer>(); // Make non-global
-	public static int numberOfPlayers = 0; // Make non-global
-	public static int pointRoll; // Make non-global
-	public static int pointGoal; // Make non-global
-	public static int comeOut; // Make non-global
+
+
 	public static int actionCoverage; // Make non-global
-	public static int shooterID = 0; // Make non-global
-	public static boolean didShooterWin; //Move to CrapsHelper
-	public static boolean didShooterCrap; //Move to CrapsHelper
-	public static boolean shootingForPoint; //Move to CrapsHelper or make non-global
-	public static boolean gameIsDone; //Move to CrapsHelper or make non-global
+	
+
 	
 	
 	public static void main(String[]args) {
@@ -43,78 +35,83 @@ public class Craps {
 		//   accordance with the number of players
 		// For each player object set a name and set a bankIndex
 		//   to interface with each array with the correct index
-		CrapsHelper.configurePlayerArray();
-		
+		int numberOfPlayers = CrapsHelper.getNumberOfPlayers();
+		ArrayList<Player> playerArray = CrapsHelper.configurePlayerArray(numberOfPlayers);
+		System.out.println(playerArray.toString());
 		// For each player, setup the starting amount of money
 		//  inside of bankRollArray with the players bankIndex
-		CrapsHelper.configureBankRollArray();
-		
+		ArrayList<Integer> bankRollArray = CrapsHelper.configureBankRollArray(playerArray, numberOfPlayers);
+		ArrayList<Integer> betAmountArray = CrapsHelper.configureBetAmountArray(playerArray);
+
 		// Printing bank roll totals and players for debug reasons
-		CrapsHelper.printPlayerBankBalances();
+		CrapsHelper.printPlayerBankBalances(playerArray, bankRollArray);
 		
 		// Query if the players would like to see a brief description
 		//  of the rules
 		CrapsHelper.queryRules();
 		
+		int shooterID = 0;
 		// Start the main game loop
 		do {
 			
 			// Print who the shooter is and get their bet
-			CrapsHelper.actionAmount = CrapsHelper.getShooterBet();
-			
+			CrapsHelper.actionAmount = CrapsHelper.getShooterBet(playerArray, bankRollArray, betAmountArray, shooterID);
+			betAmountArray = CrapsHelper.addShooterBetToArray(CrapsHelper.actionAmount, shooterID, betAmountArray);
+
 			// Query other players to meet the action amount
-			CrapsHelper.getOpponentBet();
-			
+			betAmountArray = CrapsHelper.getOpponentBet(playerArray, bankRollArray, betAmountArray, shooterID);
 			//Roll the dice
-			CrapsHelper.rollComeOut();
+			int comeOut = CrapsHelper.rollComeOut();
 			
 			// Figure out the outcome of the come out roll
-			CrapsHelper.comeOutResult();
+			int pointGoal = CrapsHelper.comeOutResult(playerArray, comeOut, shooterID);
 			
-			// Adjust bank balances according to the come out 
+			// Adjust bank balances according to the come out and clear betArray
 			//  or continue to point roll stage 
-			CrapsHelper.adjustBankBalances();
+			bankRollArray = CrapsHelper.adjustBankBalances(playerArray, bankRollArray, betAmountArray, shooterID, numberOfPlayers);
+			betAmountArray = CrapsHelper.clearBetAmountArray(betAmountArray);
 			
 			// Check to see if any of the players are out after the round of betting
-			CrapsHelper.checkForBust();
+			CrapsHelper.checkForBust(playerArray, bankRollArray, betAmountArray);
 			
 			//Check for a winner after bank adjustment
-			gameIsDone = CrapsHelper.checkForWinner();
+			CrapsHelper.gameIsDone = CrapsHelper.checkForWinner(playerArray, bankRollArray, numberOfPlayers);
 			
-			// Only run this part of the game if come out did not fail or succeed
-			while (shootingForPoint) {
+			// Only run this part of the game if shooting for point
+			while (CrapsHelper.shootingForPoint) {
 				// Roll again 
-				CrapsHelper.rollForPoint();
+				int pointRoll = CrapsHelper.rollForPoint();
 				
-				//check outcome
-				CrapsHelper.pointRollResult();
+				//check point roll outcome
+				CrapsHelper.pointRollResult(playerArray, shooterID, pointRoll, pointGoal);
 				
-				//adjust bankrollArray accordingly depending on the roll
-				CrapsHelper.adjustBankBalances();
+				//adjust bankrollArray accordingly depending on the point roll
+				bankRollArray = CrapsHelper.adjustBankBalances(playerArray, bankRollArray, betAmountArray, shooterID, numberOfPlayers);
+				betAmountArray = CrapsHelper.clearBetAmountArray(betAmountArray);
 				
 				// Check to see if any of the players are out after the round of betting
-				CrapsHelper.checkForBust();
+				playerArray = CrapsHelper.checkForBust(playerArray, bankRollArray, betAmountArray);
 				
 				//Check for a winner after bank adjustment
-				gameIsDone = CrapsHelper.checkForWinner();
+				CrapsHelper.gameIsDone = CrapsHelper.checkForWinner(playerArray, bankRollArray, numberOfPlayers);
 				
 				
 			}
 			// Print totals before queryPass if the game has not ended
-			if (!gameIsDone) {
+			if (!CrapsHelper.gameIsDone) {
 				CrapsHelper.printMessageln("\nAfter this pass, here are the bankroll balances for everyone:");
-				CrapsHelper.printPlayerBankBalances();
+				CrapsHelper.printPlayerBankBalances(playerArray, bankRollArray);
 			}
 			
 			// Get next shooter if game is not done and the current
 			//  shooter decides to pass
-			if (!gameIsDone) {
-				if (CrapsHelper.queryPass()) {
-					CrapsHelper.getNextShooter();
+			if (!CrapsHelper.gameIsDone) {
+				if (CrapsHelper.queryPass(playerArray, shooterID)) {
+					shooterID = CrapsHelper.getNextShooter(playerArray, shooterID, numberOfPlayers);
 				}
 			}
 			
-		} while (!gameIsDone); // Game loop end
+		} while (!CrapsHelper.gameIsDone); // Game loop end
 		
 		// Launch celebration message for the winner
 		CrapsHelper.launchCelebration();

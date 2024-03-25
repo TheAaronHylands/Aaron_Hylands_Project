@@ -473,12 +473,14 @@ public class CrapsUI implements ActionListener {
 	Purpose:	This handles all of the action events created by the JButtons
 	 			 with a switch statement
 	*/
-	
+	public static int numberOfPlayersInputFromUI;//Need this global variable for when the UI is running to get the number of players
 	public void actionPerformed(ActionEvent event) {
 		String submission = event.getActionCommand();
 		switch(submission) {
 			case("Select # Of Players"): {
-				Craps.numberOfPlayers = playerNumberSelect.getItemAt(playerNumberSelect.getSelectedIndex());
+				
+				numberOfPlayersInputFromUI = playerNumberSelect.getItemAt(playerNumberSelect.getSelectedIndex());
+				
 				inputSubmitted();
 				break;
 			}
@@ -562,18 +564,17 @@ public class CrapsUI implements ActionListener {
 //===================================================================================
 	/**
 	Name: 		configureBankDisplay
-	Parameters:	N/A
+	Parameters:	ArrayList<Player> playerArray, int numberOfPlayers
 	Return:		void
 	Purpose:	This method sets up the bank display in the top left,
 	 			 configuring the size for name length and amount of players.
 	*/
 	
 	private static int nameLengthMax = 0;
-	public static void configureBankDisplay() {
-		
+	public static void configureBankDisplay(ArrayList<Player> playerArray, int numberOfPlayers) {
 		ArrayList<Integer> nameLengthHolder = new ArrayList<Integer>();
 		
-		Craps.playerArray.forEach((player) -> {
+		playerArray.forEach((player) -> {
 			nameLengthHolder.add(player.getName().length());
 		});
 		
@@ -599,7 +600,7 @@ public class CrapsUI implements ActionListener {
 		
 		
 		
-		int bankDisplayHeight = (Craps.numberOfPlayers * 20) + 20;
+		int bankDisplayHeight = (numberOfPlayers * 20) + 20;
 		int bankDisplayWidth = (nameLengthMax * 10) + 70;
 		
 		CrapsUI.bankAmountDisplay.setBounds(7, 7, bankDisplayWidth, bankDisplayHeight);
@@ -610,25 +611,25 @@ public class CrapsUI implements ActionListener {
 //===================================================================================
 	/**
 	Name: 		updateBankDisplay
-	Parameters:	N/A
+	Parameters:	ArrayList<Player> playerArray, ArrayList<Integer> bankRollArray
 	Return:		void
 	Purpose:	This method updates the bank amount display in the top left of the screen
 	*/
 
-	public static void updateBankDisplay() {
+	public static void updateBankDisplay(ArrayList<Player> playerArray, ArrayList<Integer> bankRollArray) {
 		bankAmountDisplay.setText("Name | Bank\n");
-		Craps.playerArray.forEach((player) -> {
+		playerArray.forEach((player) -> {
 			String subStringHolder;
 			if (player.getName().length() <= 11) {
 				bankAmountDisplay.setText(bankAmountDisplay.getText() + player.getName()
 				+ " | $" 
-				+ Craps.bankRollArray.get(player.getBankRollIndex())
+				+ bankRollArray.get(player.getBankRollIndex())
 				+ "\n");
 			} else {
 				subStringHolder = player.getName().substring(0,9) + "..";
 				bankAmountDisplay.setText(bankAmountDisplay.getText() + subStringHolder
 						+ " | $" 
-						+ Craps.bankRollArray.get(player.getBankRollIndex())
+						+ bankRollArray.get(player.getBankRollIndex())
 						+ "\n");
 			}
 		});
