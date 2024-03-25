@@ -122,8 +122,10 @@ public class Craps {
 			}
 			
 			//get next shooter if game is not done
-			if (!gameIsDone && CrapsHelper.queryPass()) {
-				CrapsHelper.getNextShooter();
+			if (!gameIsDone) {
+				if (CrapsHelper.queryPass()) {
+					CrapsHelper.getNextShooter();
+				}
 			}
 			
 		

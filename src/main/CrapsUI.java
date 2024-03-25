@@ -515,7 +515,8 @@ public class CrapsUI implements ActionListener {
 				+ "6. Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!");
 	}
 	
-	
+	//This method sets up the bank display in the top left, configuring the size for name length and amount
+	// of players.
 	private static int nameLengthMax = 0;
 	public static void configureBankDisplay() {
 		
@@ -545,6 +546,7 @@ public class CrapsUI implements ActionListener {
 		
 	}
 	
+	//This method updates the bank amount display in the top left of the screen
 	public static void updateBankDisplay() {
 		bankAmountDisplay.setText("Name | Bank\n");
 		Craps.playerArray.forEach((player) -> {

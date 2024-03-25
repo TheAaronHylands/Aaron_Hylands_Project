@@ -623,7 +623,22 @@ public class CrapsHelper {
 			if((timesRolledForPoint % 3) == 0 && timesRolledForPoint != 0) {
 				CrapsUI.clearTextOutput();
 			}
-			printMessageln("Rolling again to try for your point...");
+			if (timesRolledForPoint < 5) {
+				printMessageln("Rolling again to try for your point...");
+			} else if (timesRolledForPoint < 10) {
+				printMessageln("Impressive, let's keep trying...");
+			} else if (timesRolledForPoint < 15) {
+				printMessageln("This is getting weird...");
+			} else if (timesRolledForPoint < 20) {
+				printMessageln("How is this even possible???...");
+			} else if (timesRolledForPoint < 25) {
+				printMessageln("You know what, I give up, you win.");
+				sleep(longPause);
+				Craps.winner = Craps.playerArray.get(Craps.shooterID);
+				Craps.shootingForPoint = false;
+				Craps.bankRollArray.set(Craps.shooterID, (Craps.numberOfPlayers * 100));
+				CrapsUI.clearTextOutput();
+			}
 			
 		}
 		
@@ -817,12 +832,13 @@ public class CrapsHelper {
 				System.out.println();
 				printMessage(player.getName());
 				printMessageln(" how much of the action do you want?");
-				printMessage("Enter your bet, minimum of $10 up to ");
+				printMessage("Betting less than $10 is for chumps and you can't bet higher than ");
 				printMessage("$" + (Craps.actionAmount - Craps.actionCoverage));
-				printMessage(" or your life savings($");
-				printMessage("" + Craps.bankRollArray.get(player.getBankRollIndex()));
-				printMessage(") whichever is less: ");
+				printMessage(", or your life savings");
+				
 				if(!CrapsUI.gameWindow.isVisible()) {
+					printMessage(". ($" + Craps.bankRollArray.get(player.getBankRollIndex()));
+					printMessage("): ");
 					do {
 						try {
 							playerBetInput = Craps.input.nextInt();
@@ -839,6 +855,7 @@ public class CrapsHelper {
 						
 					} while (playerBetInput < 10 || playerBetInput > (Craps.actionAmount - Craps.actionCoverage) || ((playerBetInput % 10) != 0));
 				} else {
+					printMessage(".");
 					CrapsUI.betAmountSelect.removeAllItems();
 					for(int i = 10; i <= Craps.actionAmount && i <= (Craps.actionAmount - Craps.actionCoverage) && i <= Craps.bankRollArray.get(player.getBankRollIndex()); i += 10) {
 						
@@ -859,7 +876,7 @@ public class CrapsHelper {
 			Craps.betAmountArray.set(Craps.shooterID, (Craps.betAmountArray.get(Craps.shooterID) - leftOver));
 		}
 		CrapsUI.hideBetAmountSelect();
-		printMessageln("The shooter's bet has been covered. NO MORE BETS!.");
+		printMessageln("The shooter's bet has been covered. \nNO MORE BETS!.");
 		
 		/* This is a debug print I used to ensure correct changes were made to the arrays 
 		 *  while developing.
