@@ -432,6 +432,7 @@ public class CrapsUI implements ActionListener {
 		waitingForInput = false;
 	}
 	
+	
 	/*
 	 * This is the actionPerformed() method and it handles
 	 *  all of the action events created by the JButtons
@@ -498,7 +499,7 @@ public class CrapsUI implements ActionListener {
 		}// End of submission switch
 	}// End of actionPeformed
 	
-	//Method to fill the rules textArea
+	//Method to fill the rules textArea when initializing UI
 	public static void fillRulesText() {
 		rulesText.setText("Objective: 2-6 players place bets and roll two six sided dice to determine the outcome.\r\n"
 				+ "\r\n"
@@ -515,8 +516,10 @@ public class CrapsUI implements ActionListener {
 				+ "6. Winning or Losing: If a player runs out of money, then they lose and are out of the game. Once a player has acquired all of the money from the other players then they win!");
 	}
 	
-	//This method sets up the bank display in the top left, configuring the size for name length and amount
-	// of players.
+	/* This method sets up the bank display 
+	 *  in the top left, configuring the size 
+	 *  for name length and amount of players.
+	 */
 	private static int nameLengthMax = 0;
 	public static void configureBankDisplay() {
 		
@@ -533,14 +536,24 @@ public class CrapsUI implements ActionListener {
 			}
 		});
 		
+		
+		/* This cuts off the size to ensure the
+		 *  bank display doesn't overlap the
+		 *  output text, as well as to ensure
+		 *  that it is large enough to hold the
+		 *  label line of "Name | Bank"
+		 */
 		if(nameLengthMax > 11) {
 			nameLengthMax = 11;
 		} else if (nameLengthMax < 5) {
 			nameLengthMax = 5;
 		}
 		
+		
+		
 		int bankDisplayHeight = (Craps.numberOfPlayers * 20) + 20;
 		int bankDisplayWidth = (nameLengthMax * 10) + 70;
+		
 		CrapsUI.bankAmountDisplay.setBounds(7, 7, bankDisplayWidth, bankDisplayHeight);
 		
 		
@@ -567,6 +580,10 @@ public class CrapsUI implements ActionListener {
 	}
 	
 	
+	
+	/*
+	 * These variables are for the celebrateUntilExit() method
+	 */
 	private static Color red = new Color(255,0,0);
 	private static Color orange = new Color(255, 123, 0);
 	private static Color yellow = new Color(255,255,0);
